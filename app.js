@@ -15,6 +15,8 @@
   const legacyEl = document.getElementById("note-legacy");
   const lineageTrack = document.getElementById("lineage-track");
   const cardEl = document.getElementById("president-card");
+  const visualCardEl = document.getElementById("visual-card");
+  const textCardEl = document.getElementById("text-card");
   const lineageViewEl = document.getElementById("lineage-view");
   const historyStateLineage = { view: "lineage" };
 
@@ -25,6 +27,7 @@
 
   let activePresidentId = presidents[0].id;
   let activeView = "lineage";
+  let activeDetailCard = "visual";
   let touchStartX = 0;
   let touchStartY = 0;
   let isTrackingSwipeBack = false;
@@ -267,6 +270,16 @@
     }
   }
 
+  function setActiveDetailCard(cardName) {
+    activeDetailCard = cardName === "text" ? "text" : "visual";
+    if (visualCardEl) {
+      visualCardEl.hidden = activeDetailCard !== "visual";
+    }
+    if (textCardEl) {
+      textCardEl.hidden = activeDetailCard !== "text";
+    }
+  }
+
   function scrollToLineageTop() {
     if (!lineageViewEl) {
       return;
@@ -326,6 +339,7 @@
   function showNoteView(presidentId, { pushHistory = false } = {}) {
     renderPresident(presidentId);
     setActiveView("note");
+    setActiveDetailCard("visual");
     scrollToImageTop();
     if (pushHistory) {
       window.history.pushState({ view: "note", presidentId: Number(presidentId) }, "");
@@ -379,6 +393,21 @@
 
   backToLineageButton.addEventListener("click", () => {
     goBackToLineage();
+  });
+
+  visualCardEl?.addEventListener("click", () => {
+    if (activeView !== "note") {
+      return;
+    }
+    setActiveDetailCard("text");
+  });
+
+  textCardEl?.addEventListener("click", () => {
+    if (activeView !== "note") {
+      return;
+    }
+    setActiveDetailCard("visual");
+    scrollToImageTop();
   });
 
   cardEl.addEventListener(

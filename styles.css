@@ -359,6 +359,10 @@ h1 {
   margin-top: 0;
 }
 
+.detail-card {
+  cursor: pointer;
+}
+
 .overview-card,
 .note-card {
   border: 1px solid var(--line);
@@ -370,6 +374,10 @@ h1 {
 
 .note-card {
   margin-top: 8px;
+}
+
+.note-card-standalone {
+  margin-top: 0;
 }
 
 .image-frame {
@@ -484,6 +492,10 @@ dd {
   border-top: 1px solid var(--line);
   background: var(--card);
   padding-top: 16px;
+}
+
+.note-card-standalone.note {
+  border-top: 0;
 }
 
 .note-grid {
