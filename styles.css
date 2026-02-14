@@ -105,6 +105,7 @@ h1 {
   font-weight: 800;
   font-size: clamp(1.05rem, 4.2vw, 1.35rem);
   line-height: 1.2;
+  color: #fff;
 }
 
 .era-toggle-all,
