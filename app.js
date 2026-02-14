@@ -83,7 +83,9 @@
     nameEl.innerHTML = renderNameStack(president.jpName, president.name);
     termEl.textContent = president.term;
     partyEl.textContent = president.party;
-    keywordsEl.textContent = president.keywords.join(" / ");
+    keywordsEl.innerHTML = `<ul class="keyword-list">${president.keywords
+      .map((keyword) => `<li>${escapeHtml(keyword)}</li>`)
+      .join("")}</ul>`;
     originEl.textContent = president.origin;
     legacyEl.textContent = president.legacy;
 

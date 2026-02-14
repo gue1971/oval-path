@@ -214,6 +214,13 @@ dd {
   line-height: 1.45;
 }
 
+.keyword-list {
+  margin: 0;
+  padding-left: 1.1em;
+  display: grid;
+  gap: 2px;
+}
+
 .name-stack {
   display: inline-flex;
   flex-direction: column;
