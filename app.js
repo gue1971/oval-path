@@ -9,6 +9,8 @@
   const rankEl = document.getElementById("pi-rank");
   const nameEl = document.getElementById("pi-name");
   const termEl = document.getElementById("pi-term");
+  const detailMetaRankEl = document.getElementById("detail-meta-rank");
+  const detailMetaTermEl = document.getElementById("detail-meta-term");
   const partyEl = document.getElementById("pi-party");
   const keywordsEl = document.getElementById("pi-keywords");
   const originEl = document.getElementById("note-origin");
@@ -314,8 +316,16 @@
     renderSymbolVisual(president);
     symbolCaption.textContent = president.symbolCaption;
     rankEl.textContent = formatPresidencyLabel(president);
+    if (detailMetaRankEl) {
+      detailMetaRankEl.textContent = formatPresidencyLabel(president);
+    }
     nameEl.innerHTML = renderNameStack(president.jpName, president.name);
     termEl.innerHTML = renderTerm(president.term);
+    if (detailMetaTermEl) {
+      detailMetaTermEl.textContent = Array.isArray(president.term)
+        ? president.term.join(" / ")
+        : String(president.term || "");
+    }
     partyEl.textContent = president.party;
     keywordsEl.innerHTML = `<ul class="keyword-list">${president.keywords
       .map((keyword) => `<li>${escapeHtml(keyword)}</li>`)
