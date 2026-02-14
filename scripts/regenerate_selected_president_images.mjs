@@ -50,10 +50,16 @@ function buildPrompt(presidentName) {
     "Donald Trump": "a bold red necktie as the single symbolic emphasis"
   };
   const forcedItem = forcedItemByName[presidentName] || null;
+  const allowTextByName = {
+    "Donald Trump": true
+  };
+  const allowText = Boolean(allowTextByName[presidentName]);
   const extraConstraintsByName = {
     "Donald Trump": [
-      "- No social media logos/icons, especially no Twitter/X bird or symbols",
-      "- No background people, no crowd, no bystanders"
+      "- Include a smartphone clearly in one hand as the symbolic object",
+      "- Background should depict a lively rally atmosphere",
+      "- Supporters may appear in the background holding signs that read: MAKE AMERICA GREAT AGAIN",
+      "- No social media logos/icons, especially no Twitter/X bird or symbols"
     ]
   };
   const extraConstraints = extraConstraintsByName[presidentName] || [];
@@ -90,7 +96,7 @@ function buildPrompt(presidentName) {
     "- Full-bleed composition to all four corners",
     "- No blank/white margins in any corner",
     "- Do NOT draw any decorative outer frame, border, vignette, or panel edge",
-    "- No text, no logo, no watermark, no signature",
+    ...(allowText ? ["- No logo, no watermark, no signature"] : ["- No text, no logo, no watermark, no signature"]),
     "- Single character only, full body visible",
     ...extraConstraints,
     "",
