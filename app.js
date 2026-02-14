@@ -2,6 +2,7 @@
   const presidents = window.PRESIDENTS || [];
 
   const picker = document.getElementById("president-picker");
+  const controlsEl = document.querySelector(".controls");
   const eraPicker = document.getElementById("era-picker");
   const eraButton = document.getElementById("era-button");
   const eraCurrent = document.getElementById("era-current");
@@ -19,6 +20,7 @@
   const originEl = document.getElementById("note-origin");
   const legacyEl = document.getElementById("note-legacy");
   const lineageTrack = document.getElementById("lineage-track");
+  const cardEl = document.getElementById("president-card");
 
   if (!presidents.length) {
     document.body.innerHTML = "<p>データが見つかりませんでした。</p>";
@@ -142,12 +144,26 @@
       .join("");
   }
 
-  function renderPresident(id) {
+  function scrollToImageTop() {
+    if (!cardEl) {
+      return;
+    }
+    const controlsHeight = controlsEl ? controlsEl.offsetHeight : 0;
+    const top = cardEl.getBoundingClientRect().top + window.scrollY - controlsHeight - 6;
+    window.scrollTo({
+      top: Math.max(top, 0),
+      behavior: "smooth"
+    });
+  }
+
+  function renderPresident(id, options = {}) {
+    const { scroll = false } = options;
     const president = presidents.find((p) => p.id === Number(id)) || presidents[0];
     if (!president) {
       return;
     }
 
+    const hasChanged = president.id !== activePresidentId;
     activePresidentId = president.id;
     renderPickerCurrent(president);
     symbolArt.textContent = president.symbol;
@@ -169,9 +185,14 @@
     });
 
     renderLineage(president.id);
+
+    if (scroll && hasChanged) {
+      scrollToImageTop();
+    }
   }
 
-  function applyEraFilter() {
+  function applyEraFilter(options = {}) {
+    const { scroll = false } = options;
     filteredPresidents =
       selectedEra === "all" ? [...presidents] : presidents.filter((p) => p.era === selectedEra);
     if (!filteredPresidents.length) {
@@ -182,7 +203,7 @@
     }
     buildPickerOptions();
     renderEraCurrent();
-    renderPresident(activePresidentId);
+    renderPresident(activePresidentId, { scroll });
     setPickerExpanded(false);
     setEraExpanded(false);
   }
@@ -200,7 +221,7 @@
       return;
     }
     selectedEra = target.dataset.eraValue || "all";
-    applyEraFilter();
+    applyEraFilter({ scroll: true });
   });
 
   pickerButton.addEventListener("click", () => {
@@ -212,7 +233,7 @@
     if (!target) {
       return;
     }
-    renderPresident(Number(target.dataset.presidentId));
+    renderPresident(Number(target.dataset.presidentId), { scroll: true });
     setPickerExpanded(false);
   });
 
