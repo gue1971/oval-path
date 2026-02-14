@@ -34,15 +34,15 @@
   const expandedEras = new Set([presidents[0].era]);
 
   const eraMetaMap = {
-    建国期: { years: "1789-1841", presidents: "1-8代" },
-    拡張と分断前夜: { years: "1841-1861", presidents: "9-15代" },
-    南北戦争と再建: { years: "1861-1881", presidents: "16-20代" },
-    産業化と改革: { years: "1881-1901", presidents: "21-25代" },
-    進歩主義時代: { years: "1901-1921", presidents: "26-28代" },
-    戦間期と大恐慌: { years: "1921-1945", presidents: "29-32代" },
-    冷戦と戦後再編: { years: "1945-1981", presidents: "33-39代" },
-    保守化とグローバル化: { years: "1981-2009", presidents: "40-43代" },
-    現代アメリカ: { years: "2009-現在", presidents: "44-47代" }
+    建国期: { years: "1789-1841", presidents: "#1 - #8" },
+    拡張と分断前夜: { years: "1841-1861", presidents: "#9 - #15" },
+    南北戦争と再建: { years: "1861-1881", presidents: "#16 - #20" },
+    産業化と改革: { years: "1881-1901", presidents: "#21 - #25" },
+    進歩主義時代: { years: "1901-1921", presidents: "#26 - #28" },
+    戦間期と大恐慌: { years: "1921-1945", presidents: "#29 - #32" },
+    冷戦と戦後再編: { years: "1945-1981", presidents: "#33 - #39" },
+    保守化とグローバル化: { years: "1981-2009", presidents: "#40 - #43" },
+    現代アメリカ: { years: "2009-現在", presidents: "#44 - #47" }
   };
   const eraNames = [...new Set(presidents.map((p) => p.era).filter(Boolean))];
 

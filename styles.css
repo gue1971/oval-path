@@ -327,6 +327,7 @@ h1 {
   font-size: 0.73rem;
   font-weight: 700;
   color: #fff;
+  -webkit-text-fill-color: #fff;
   padding: 3px 7px;
   border-radius: 999px;
   line-height: 1;
