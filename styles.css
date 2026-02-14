@@ -345,8 +345,7 @@ dd {
 
 .note {
   border-top: 2px solid #b7aa8c;
-  background: #fffdf8;
-  box-shadow: inset 0 10px 0 rgb(229 217 192 / 35%);
+  background: var(--card);
   padding-top: 12px;
 }
 
