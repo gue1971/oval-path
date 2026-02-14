@@ -27,6 +27,7 @@
   let touchStartX = 0;
   let touchStartY = 0;
   let isTrackingSwipeBack = false;
+  const expandedEras = new Set([presidents[0].era]);
 
   const eraMetaMap = {
     建国期: { years: "1789-1841", presidents: "1-8代" },
@@ -168,6 +169,11 @@
       return groups;
     }, []);
 
+    const activePresident = presidents.find((p) => p.id === Number(activeId));
+    if (activePresident?.era) {
+      expandedEras.add(activePresident.era);
+    }
+
     lineageTrack.innerHTML = eraGroups
       .map((group) => {
         const eraMeta = eraMetaMap[group.era] || { years: "", presidents: "" };
@@ -179,6 +185,8 @@
         const eraPoint = eraPointMap[group.era]
           ? `<p class="lineage-era-point">${escapeHtml(eraPointMap[group.era])}</p>`
           : "";
+        const isExpanded = expandedEras.has(group.era);
+        const eraBodyId = `lineage-era-body-${slugifyName(group.era)}`;
         const items = group.presidents
           .map((p) => {
             const activeClass = p.id === activeId ? ' style="border-color:#b14f2f;background:#fff4e5"' : "";
@@ -205,9 +213,20 @@
           .join("");
 
         return `<section class="lineage-era-group" data-era="${escapeHtml(group.era)}">
-          <div class="lineage-era-header">${eraYears}${eraName}${eraRange}</div>
-          ${eraPoint}
-          <div class="lineage-era-list">${items}</div>
+          <button
+            type="button"
+            class="lineage-era-toggle"
+            data-era-toggle="${escapeHtml(group.era)}"
+            aria-expanded="${isExpanded ? "true" : "false"}"
+            aria-controls="${eraBodyId}"
+          >
+            <span class="lineage-era-header">${eraYears}${eraName}${eraRange}</span>
+            <span class="lineage-era-caret" aria-hidden="true">${isExpanded ? "▾" : "▸"}</span>
+          </button>
+          <div id="${eraBodyId}" class="lineage-era-body" ${isExpanded ? "" : "hidden"}>
+            ${eraPoint}
+            <div class="lineage-era-list">${items}</div>
+          </div>
         </section>`;
       })
       .join("");
@@ -308,6 +327,21 @@
   window.history.replaceState(historyStateLineage, "");
 
   lineageTrack.addEventListener("click", (event) => {
+    const toggle = event.target.closest(".lineage-era-toggle");
+    if (toggle) {
+      const eraName = toggle.dataset.eraToggle;
+      if (!eraName) {
+        return;
+      }
+      if (expandedEras.has(eraName)) {
+        expandedEras.delete(eraName);
+      } else {
+        expandedEras.add(eraName);
+      }
+      renderLineage(activePresidentId);
+      return;
+    }
+
     const item = event.target.closest(".lineage-item");
     if (!item) {
       return;
