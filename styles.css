@@ -485,7 +485,6 @@ dd {
   font-size: 0.95rem;
 }
 
-.lineage,
 .roadmap,
 .gallery {
   margin-top: 10px;
@@ -493,6 +492,10 @@ dd {
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 14px;
+}
+
+.lineage {
+  margin-top: 10px;
 }
 
 .lineage-help {
