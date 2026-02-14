@@ -307,13 +307,14 @@ h1 {
 }
 
 .symbol-art-image {
-  padding: 6px;
+  padding: 0;
 }
 
 .president-art {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
   display: block;
 }
 
