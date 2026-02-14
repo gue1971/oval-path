@@ -13,6 +13,7 @@
   --party-whig: #b8921a;
   --party-gop: #b92d2d;
   --party-other: #7b7b7b;
+  --visual-bg: #f7ecd9;
 }
 
 * {
@@ -394,10 +395,7 @@ h1 {
   justify-items: center;
   gap: 0;
   padding: 12px 12px 8px;
-  background:
-    radial-gradient(circle at 18% 18%, rgb(255 240 214 / 88%) 0%, transparent 36%),
-    radial-gradient(circle at 82% 26%, rgb(246 220 186 / 76%) 0%, transparent 34%),
-    linear-gradient(180deg, #fff8ec 0%, #f6ead8 100%);
+  background: var(--visual-bg);
 }
 
 .symbol-art {
@@ -430,14 +428,13 @@ h1 {
   margin: 0;
   font-size: 0.88rem;
   color: var(--muted);
+  text-align: center;
+  width: 100%;
 }
 
 .symbol-caption-wrap {
   padding: 2px 12px 10px;
-  background:
-    radial-gradient(circle at 18% 18%, rgb(255 240 214 / 88%) 0%, transparent 36%),
-    radial-gradient(circle at 82% 26%, rgb(246 220 186 / 76%) 0%, transparent 34%),
-    linear-gradient(180deg, #fff8ec 0%, #f6ead8 100%);
+  background: var(--visual-bg);
 }
 
 .quick-insight,
