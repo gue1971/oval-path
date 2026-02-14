@@ -246,7 +246,7 @@
   function buildSymbolModalHtml(president) {
     const paragraphs = [
       `このイラストのモチーフは「${president.symbolCaption}」です。${president.jpName}をひと目で思い出せるように選んでいます。`,
-      `時代区分は「${president.era}」、任期は「${president.term}」です。背景や遺産の詳しい説明は、別カードでゆっくり読めます。`
+      `背景や遺産の詳しい説明は、別カードでゆっくり読めます。`
     ];
     return paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("");
   }
