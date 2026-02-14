@@ -392,13 +392,13 @@ h1 {
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: 4px;
-  padding: 10px 10px 0;
+  gap: 6px;
+  padding: 10px 10px 8px;
   background: #fffdf9;
 }
 
 .symbol-art {
-  width: 100%;
+  width: 94%;
   aspect-ratio: 1 / 1;
   border-radius: 20px;
   border: 3px solid #51493b;
