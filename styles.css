@@ -214,6 +214,10 @@ dd {
   line-height: 1.45;
 }
 
+.term-line {
+  display: block;
+}
+
 .keyword-list {
   margin: 0;
   padding-left: 1.1em;

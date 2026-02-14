@@ -33,6 +33,25 @@
     return `<span class="name-stack"><span class="name-ja">${escapeHtml(jpName)}</span><span class="name-en">${escapeHtml(enName)}</span></span>`;
   }
 
+  function formatPresidencyLabel(president) {
+    const numbers =
+      Array.isArray(president.presidencyNumbers) && president.presidencyNumbers.length
+        ? president.presidencyNumbers
+        : [president.id];
+    const uniqueSorted = [...new Set(numbers.map(Number).filter(Number.isFinite))].sort((a, b) => a - b);
+    if (uniqueSorted.length === 1 && uniqueSorted[0] === 1) {
+      return "初代";
+    }
+    return `第${uniqueSorted.join("・")}代`;
+  }
+
+  function renderTerm(termValue) {
+    if (Array.isArray(termValue)) {
+      return termValue.map((line) => `<span class="term-line">${escapeHtml(line)}</span>`).join("");
+    }
+    return `<span class="term-line">${escapeHtml(termValue)}</span>`;
+  }
+
   function renderPickerCurrent(president) {
     pickerCurrent.innerHTML = `<span class="picker-name-row"><span class="picker-index">${president.id}.</span><span class="name-stack"><span class="name-ja">${escapeHtml(president.jpName)}</span><span class="name-en">${escapeHtml(president.name)}</span></span></span>`;
   }
@@ -80,8 +99,8 @@
     renderPickerCurrent(president);
     symbolArt.textContent = president.symbol;
     symbolCaption.textContent = president.symbolCaption;
-    nameEl.innerHTML = renderNameStack(president.jpName, president.name);
-    termEl.textContent = president.term;
+    nameEl.textContent = formatPresidencyLabel(president);
+    termEl.innerHTML = renderTerm(president.term);
     partyEl.textContent = president.party;
     keywordsEl.innerHTML = `<ul class="keyword-list">${president.keywords
       .map((keyword) => `<li>${escapeHtml(keyword)}</li>`)
