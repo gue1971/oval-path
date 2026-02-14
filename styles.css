@@ -38,6 +38,7 @@ body {
   max-width: 100%;
   margin: 0;
   padding: 0 10px 26px;
+  background: var(--bg-0);
 }
 
 .app-header {
@@ -78,7 +79,7 @@ h1 {
   padding: 12px 10px;
   display: block;
   background: var(--bg-0);
-  border-bottom: 1px solid #ddd4c2;
+  border-bottom: 1px solid #1c2946;
 }
 
 .controls-inner {
