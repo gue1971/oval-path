@@ -371,8 +371,12 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 18px;
   overflow: hidden;
-  background: var(--card);
-  box-shadow: 0 10px 30px rgb(55 49 37 / 14%);
+  background:
+    linear-gradient(180deg, #fffefc, #fdf9f1),
+    repeating-linear-gradient(0deg, rgb(169 151 119 / 6%) 0 1px, transparent 1px 24px);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 70%) inset,
+    0 10px 24px rgb(55 49 37 / 12%);
 }
 
 .note-card {
@@ -431,7 +435,20 @@ h1 {
 }
 
 .quick-insight {
-  background: linear-gradient(180deg, #fffdf9, #fbf8f1);
+  position: relative;
+  padding: 14px 16px 14px 18px;
+  background: linear-gradient(180deg, #fffefb, #fbf8f0);
+}
+
+.quick-insight::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #d7ba8e, #c79b63);
 }
 
 .lineage h2,
@@ -493,7 +510,7 @@ dd {
 .note {
   border-top: 1px solid var(--line);
   background: var(--card);
-  padding-top: 16px;
+  padding-top: 10px;
 }
 
 .note-card-standalone.note {
@@ -503,7 +520,7 @@ dd {
 .note-grid {
   margin-top: 0;
   display: grid;
-  gap: 12px;
+  gap: 10px;
 }
 
 .note-grid article {
@@ -518,7 +535,7 @@ dd {
 }
 
 .note-grid p {
-  margin: 8px 0 0;
+  margin: 6px 0 0;
   line-height: 1.65;
   font-size: 0.95rem;
 }
