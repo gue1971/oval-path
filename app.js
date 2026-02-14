@@ -112,6 +112,11 @@
     return `<span class="party-chip party-${party.key}">${escapeHtml(party.label)}</span>`;
   }
 
+  function renderPartyChipFull(partyName) {
+    const key = getPartyKey(partyName);
+    return `<span class="party-chip party-${key}">${escapeHtml(partyName)}</span>`;
+  }
+
   function formatPresidencyLabel(president) {
     const numbers =
       Array.isArray(president.presidencyNumbers) && president.presidencyNumbers.length
@@ -316,7 +321,7 @@
     rankEl.textContent = formatPresidencyLabel(president);
     nameEl.innerHTML = renderNameStack(president.jpName, president.name);
     termEl.innerHTML = renderTerm(president.term);
-    partyEl.textContent = president.party;
+    partyEl.innerHTML = renderPartyChipFull(president.party);
     keywordsEl.innerHTML = `<ul class="keyword-list">${president.keywords
       .map((keyword) => `<li>${escapeHtml(keyword)}</li>`)
       .join("")}</ul>`;
