@@ -273,10 +273,21 @@
         const items = group.presidents
           .map((p) => {
             const activeClass = p.id === activeId ? " style=\"border-color:#b14f2f;background:#fff4e5\"" : "";
+            const slug = slugifyName(p.name);
+            const imagePath = `./assets/presidents/${slug}.png`;
             return `<div class="lineage-item" data-president-id="${p.id}"${activeClass}>
               <span class="index party-${getPartyKey(p.party)}">#${p.id}</span>
-              ${renderNameStack(p.jpName, p.name)}
-              <span class="axis">${escapeHtml(renderAxisLabel(p))}</span>
+              <span class="lineage-main">
+                ${renderNameStack(p.jpName, p.name)}
+                <span class="axis">${escapeHtml(renderAxisLabel(p))}</span>
+              </span>
+              <img
+                class="lineage-thumb"
+                src="${escapeHtml(imagePath)}"
+                alt="${escapeHtml(p.jpName)}"
+                loading="lazy"
+                decoding="async"
+              />
             </div>`;
           })
           .join("");
