@@ -261,6 +261,7 @@
     const showLineage = view === "lineage";
     cardEl.hidden = !showNote;
     lineageViewEl.hidden = !showLineage;
+    backToLineageButton.hidden = !showNote;
   }
 
   function scrollToLineageTop() {
