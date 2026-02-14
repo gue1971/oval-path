@@ -5,7 +5,6 @@
   const controlsEl = document.querySelector(".controls");
   const tabNoteButton = document.getElementById("tab-note");
   const tabLineageButton = document.getElementById("tab-lineage");
-  const tabGalleryButton = document.getElementById("tab-gallery");
   const eraPicker = document.getElementById("era-picker");
   const eraButton = document.getElementById("era-button");
   const eraCurrent = document.getElementById("era-current");
@@ -25,8 +24,6 @@
   const lineageTrack = document.getElementById("lineage-track");
   const cardEl = document.getElementById("president-card");
   const lineageViewEl = document.getElementById("lineage-view");
-  const galleryViewEl = document.getElementById("gallery-view");
-  const galleryGridEl = document.getElementById("gallery-grid");
 
   if (!presidents.length) {
     document.body.innerHTML = "<p>データが見つかりませんでした。</p>";
@@ -303,22 +300,6 @@
       .join("");
   }
 
-  function renderGallery() {
-    galleryGridEl.innerHTML = presidents
-      .map((p) => {
-        const slug = slugifyName(p.name);
-        const imagePath = `./assets/presidents/${slug}.png`;
-        const partyKey = getPartyKey(p.party);
-        const activeClass = p.id === activePresidentId ? " active" : "";
-        return `<button type="button" class="gallery-item party-${partyKey}${activeClass}" data-president-id="${p.id}">
-          <img src="${escapeHtml(imagePath)}" alt="${escapeHtml(p.jpName)}" loading="lazy" decoding="async" />
-          <span class="gallery-name">${escapeHtml(p.jpName)}</span>
-          <span class="gallery-name-en">${escapeHtml(p.name)}</span>
-        </button>`;
-      })
-      .join("");
-  }
-
   function scrollLineageToPresident(presidentId) {
     const itemEl = lineageTrack.querySelector(`[data-president-id="${presidentId}"]`);
     if (itemEl) {
@@ -343,13 +324,10 @@
     activeView = view;
     const showNote = view === "note";
     const showLineage = view === "lineage";
-    const showGallery = view === "gallery";
     cardEl.hidden = !showNote;
     lineageViewEl.hidden = !showLineage;
-    galleryViewEl.hidden = !showGallery;
     tabNoteButton.classList.toggle("active", showNote);
     tabLineageButton.classList.toggle("active", showLineage);
-    tabGalleryButton.classList.toggle("active", showGallery);
   }
 
   function scrollToLineageTop() {
@@ -406,7 +384,6 @@
     });
 
     renderLineage(president.id);
-    renderGallery();
 
     if (scroll && (hasChanged || forceScroll)) {
       if (activeView === "note") {
@@ -449,7 +426,6 @@
   buildEraOptions();
   applyEraFilter();
   setActiveView("note");
-  renderGallery();
 
   eraButton.addEventListener("click", () => {
     setEraExpanded(eraList.hidden);
@@ -488,22 +464,6 @@
     if (!scrollLineageToPresident(activePresidentId)) {
       scrollToLineageTop();
     }
-  });
-
-  tabGalleryButton.addEventListener("click", () => {
-    setActiveView("gallery");
-    renderGallery();
-  });
-
-  galleryGridEl.addEventListener("click", (event) => {
-    const target = event.target.closest(".gallery-item");
-    if (!target) {
-      return;
-    }
-    const selectedId = Number(target.dataset.presidentId);
-    renderPresident(selectedId);
-    setActiveView("note");
-    scrollToImageTop();
   });
 
   document.addEventListener("click", (event) => {
