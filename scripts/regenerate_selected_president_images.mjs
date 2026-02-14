@@ -53,8 +53,7 @@ function buildPrompt(presidentName) {
   const extraConstraintsByName = {
     "Donald Trump": [
       "- No social media logos/icons, especially no Twitter/X bird or symbols",
-      "- No background people, no crowd, no bystanders",
-      "- No placards, banners, blank papers, or signboards"
+      "- No background people, no crowd, no bystanders"
     ]
   };
   const extraConstraints = extraConstraintsByName[presidentName] || [];
