@@ -427,7 +427,7 @@ h1 {
 .symbol-caption {
   margin: 0;
   font-size: 0.95rem;
-  color: var(--muted);
+  color: var(--ink);
   text-align: center;
   width: 100%;
 }
