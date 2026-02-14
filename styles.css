@@ -392,8 +392,8 @@ h1 {
   display: grid;
   align-content: start;
   justify-items: center;
-  gap: 6px;
-  padding: 12px 12px 10px;
+  gap: 0;
+  padding: 12px 12px 8px;
   background:
     radial-gradient(circle at 18% 18%, rgb(255 240 214 / 88%) 0%, transparent 36%),
     radial-gradient(circle at 82% 26%, rgb(246 220 186 / 76%) 0%, transparent 34%),
@@ -430,6 +430,14 @@ h1 {
   margin: 0;
   font-size: 0.88rem;
   color: var(--muted);
+}
+
+.symbol-caption-wrap {
+  padding: 2px 12px 10px;
+  background:
+    radial-gradient(circle at 18% 18%, rgb(255 240 214 / 88%) 0%, transparent 36%),
+    radial-gradient(circle at 82% 26%, rgb(246 220 186 / 76%) 0%, transparent 34%),
+    linear-gradient(180deg, #fff8ec 0%, #f6ead8 100%);
 }
 
 .quick-insight,
