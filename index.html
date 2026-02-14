@@ -49,12 +49,8 @@
         </div>
       </section>
 
-      <section class="view-tabs" aria-label="表示切替">
-        <button type="button" id="tab-note" class="view-tab active">ノート</button>
-        <button type="button" id="tab-lineage" class="view-tab">思想の系譜</button>
-      </section>
-
-      <article class="card" id="president-card" aria-live="polite">
+      <article class="card" id="president-card" aria-live="polite" hidden>
+        <button type="button" class="back-button" id="back-to-lineage">思想の系譜に戻る</button>
         <section class="overview-card">
           <div class="image-frame">
             <div class="symbol-art" id="symbol-art"></div>
@@ -97,7 +93,7 @@
         </section>
       </article>
 
-      <section class="lineage" id="lineage-view" aria-label="思想の系譜" hidden>
+      <section class="lineage" id="lineage-view" aria-label="思想の系譜">
         <div id="lineage-track" class="lineage-track"></div>
       </section>
 

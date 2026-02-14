@@ -3,8 +3,7 @@
 
   const picker = document.getElementById("president-picker");
   const controlsEl = document.querySelector(".controls");
-  const tabNoteButton = document.getElementById("tab-note");
-  const tabLineageButton = document.getElementById("tab-lineage");
+  const backToLineageButton = document.getElementById("back-to-lineage");
   const eraPicker = document.getElementById("era-picker");
   const eraButton = document.getElementById("era-button");
   const eraCurrent = document.getElementById("era-current");
@@ -33,7 +32,7 @@
   let filteredPresidents = [...presidents];
   let activePresidentId = presidents[0].id;
   let selectedEra = "all";
-  let activeView = "note";
+  let activeView = "lineage";
   const eraMetaMap = {
     all: { years: "", name: "全時代", presidents: "1-47代" },
     建国期: { years: "1789-1841", name: "建国期", presidents: "1-8代" },
@@ -272,7 +271,7 @@
             const activeClass = p.id === activeId ? " style=\"border-color:#b14f2f;background:#fff4e5\"" : "";
             const slug = slugifyName(p.name);
             const imagePath = `./assets/presidents/${slug}.png`;
-            return `<div class="lineage-item" data-president-id="${p.id}"${activeClass}>
+            return `<button type="button" class="lineage-item" data-president-id="${p.id}"${activeClass}>
               <span class="index party-${getPartyKey(p.party)}">#${p.id}</span>
               <span class="lineage-main">
                 ${renderNameStack(p.jpName, p.name)}
@@ -288,7 +287,7 @@
                 loading="lazy"
                 decoding="async"
               />
-            </div>`;
+            </button>`;
           })
           .join("");
         return `<section class="lineage-era-group" data-era="${escapeHtml(group.era)}">
@@ -326,8 +325,6 @@
     const showLineage = view === "lineage";
     cardEl.hidden = !showNote;
     lineageViewEl.hidden = !showLineage;
-    tabNoteButton.classList.toggle("active", showNote);
-    tabLineageButton.classList.toggle("active", showLineage);
   }
 
   function scrollToLineageTop() {
@@ -425,7 +422,7 @@
 
   buildEraOptions();
   applyEraFilter();
-  setActiveView("note");
+  setActiveView("lineage");
 
   eraButton.addEventListener("click", () => {
     setEraExpanded(eraList.hidden);
@@ -453,12 +450,18 @@
     setPickerExpanded(false);
   });
 
-  tabNoteButton.addEventListener("click", () => {
+  lineageTrack.addEventListener("click", (event) => {
+    const item = event.target.closest(".lineage-item");
+    if (!item) {
+      return;
+    }
+    const selectedId = Number(item.dataset.presidentId);
+    renderPresident(selectedId);
     setActiveView("note");
     scrollToImageTop();
   });
 
-  tabLineageButton.addEventListener("click", () => {
+  backToLineageButton.addEventListener("click", () => {
     setActiveView("lineage");
     renderLineage(activePresidentId);
     if (!scrollLineageToPresident(activePresidentId)) {
