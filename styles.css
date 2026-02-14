@@ -306,6 +306,17 @@ h1 {
   font-size: clamp(3rem, 12vw, 4.6rem);
 }
 
+.symbol-art-image {
+  padding: 6px;
+}
+
+.president-art {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
 .symbol-caption {
   margin: 0;
   font-size: 0.88rem;

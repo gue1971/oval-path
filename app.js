@@ -56,6 +56,31 @@
       .replaceAll("'", "&#39;");
   }
 
+  function slugifyName(name) {
+    return String(name)
+      .toLowerCase()
+      .replaceAll(/[^a-z0-9]+/g, "-")
+      .replaceAll(/^-+|-+$/g, "");
+  }
+
+  function renderSymbolVisual(president) {
+    const slug = slugifyName(president.name);
+    const imagePath = `./assets/presidents/${slug}.png`;
+    const img = document.createElement("img");
+    img.className = "president-art";
+    img.alt = `${president.jpName} (${president.name})`;
+    img.loading = "eager";
+    img.decoding = "async";
+    img.src = imagePath;
+    img.addEventListener("error", () => {
+      symbolArt.textContent = president.symbol;
+      symbolArt.classList.remove("symbol-art-image");
+    });
+    symbolArt.innerHTML = "";
+    symbolArt.appendChild(img);
+    symbolArt.classList.add("symbol-art-image");
+  }
+
   function renderNameStack(jpName, enName) {
     return `<span class="name-stack"><span class="name-ja">${escapeHtml(jpName)}</span><span class="name-en">${escapeHtml(enName)}</span></span>`;
   }
@@ -292,7 +317,7 @@
     const hasChanged = president.id !== previousPresidentId;
     activePresidentId = president.id;
     renderPickerCurrent(president);
-    symbolArt.textContent = president.symbol;
+    renderSymbolVisual(president);
     symbolCaption.textContent = president.symbolCaption;
     rankEl.textContent = formatPresidencyLabel(president);
     nameEl.innerHTML = renderNameStack(president.jpName, president.name);
