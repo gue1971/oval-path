@@ -7,6 +7,7 @@
   const pickerList = document.getElementById("picker-list");
   const symbolArt = document.getElementById("symbol-art");
   const symbolCaption = document.getElementById("symbol-caption");
+  const rankEl = document.getElementById("pi-rank");
   const nameEl = document.getElementById("pi-name");
   const termEl = document.getElementById("pi-term");
   const partyEl = document.getElementById("pi-party");
@@ -99,7 +100,8 @@
     renderPickerCurrent(president);
     symbolArt.textContent = president.symbol;
     symbolCaption.textContent = president.symbolCaption;
-    nameEl.textContent = formatPresidencyLabel(president);
+    rankEl.textContent = formatPresidencyLabel(president);
+    nameEl.innerHTML = renderNameStack(president.jpName, president.name);
     termEl.innerHTML = renderTerm(president.term);
     partyEl.textContent = president.party;
     keywordsEl.innerHTML = `<ul class="keyword-list">${president.keywords
