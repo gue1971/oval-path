@@ -394,7 +394,10 @@ h1 {
   justify-items: center;
   gap: 6px;
   padding: 12px 12px 8px;
-  background: #fffdf9;
+  background:
+    radial-gradient(circle at 18% 18%, rgb(255 240 214 / 88%) 0%, transparent 36%),
+    radial-gradient(circle at 82% 26%, rgb(246 220 186 / 76%) 0%, transparent 34%),
+    linear-gradient(180deg, #fff8ec 0%, #f6ead8 100%);
 }
 
 .symbol-art {
