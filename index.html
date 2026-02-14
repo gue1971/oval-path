@@ -48,6 +48,7 @@
       <section class="view-tabs" aria-label="表示切替">
         <button type="button" id="tab-note" class="view-tab active">ノート表示</button>
         <button type="button" id="tab-lineage" class="view-tab">思想の系譜マップ</button>
+        <button type="button" id="tab-gallery" class="view-tab">イラスト一覧</button>
       </section>
 
       <article class="card" id="president-card" aria-live="polite">
@@ -97,6 +98,11 @@
         <h2>思想の系譜マップ</h2>
         <p class="lineage-help">対立軸: <strong>時代ごとに基準が変化（項目ごとに表示）</strong></p>
         <div id="lineage-track" class="lineage-track"></div>
+      </section>
+
+      <section class="gallery" id="gallery-view" aria-label="大統領イラスト一覧" hidden>
+        <h2>大統領イラスト一覧</h2>
+        <div id="gallery-grid" class="gallery-grid"></div>
       </section>
     </main>
 
