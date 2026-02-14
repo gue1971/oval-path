@@ -1,16 +1,8 @@
 (function initOvalPath() {
   const presidents = window.PRESIDENTS || [];
 
-  const picker = document.getElementById("president-picker");
   const controlsEl = document.querySelector(".controls");
   const backToLineageButton = document.getElementById("back-to-lineage");
-  const eraPicker = document.getElementById("era-picker");
-  const eraButton = document.getElementById("era-button");
-  const eraCurrent = document.getElementById("era-current");
-  const eraList = document.getElementById("era-list");
-  const pickerButton = document.getElementById("picker-button");
-  const pickerCurrent = document.getElementById("picker-current");
-  const pickerList = document.getElementById("picker-list");
   const symbolArt = document.getElementById("symbol-art");
   const symbolCaption = document.getElementById("symbol-caption");
   const rankEl = document.getElementById("pi-rank");
@@ -30,21 +22,19 @@
     return;
   }
 
-  let filteredPresidents = [...presidents];
   let activePresidentId = presidents[0].id;
-  let selectedEra = "all";
   let activeView = "lineage";
+
   const eraMetaMap = {
-    all: { years: "", name: "全時代", presidents: "1-47代" },
-    建国期: { years: "1789-1841", name: "建国期", presidents: "1-8代" },
-    拡張と分断前夜: { years: "1841-1861", name: "拡張と分断前夜", presidents: "9-15代" },
-    南北戦争と再建: { years: "1861-1881", name: "南北戦争と再建", presidents: "16-20代" },
-    産業化と改革: { years: "1881-1901", name: "産業化と改革", presidents: "21-25代" },
-    進歩主義時代: { years: "1901-1921", name: "進歩主義時代", presidents: "26-28代" },
-    戦間期と大恐慌: { years: "1921-1945", name: "戦間期と大恐慌", presidents: "29-32代" },
-    冷戦と戦後再編: { years: "1945-1981", name: "冷戦と戦後再編", presidents: "33-39代" },
-    保守化とグローバル化: { years: "1981-2009", name: "保守化とグローバル化", presidents: "40-43代" },
-    現代アメリカ: { years: "2009-現在", name: "現代アメリカ", presidents: "44-47代" }
+    建国期: { years: "1789-1841", presidents: "1-8代" },
+    拡張と分断前夜: { years: "1841-1861", presidents: "9-15代" },
+    南北戦争と再建: { years: "1861-1881", presidents: "16-20代" },
+    産業化と改革: { years: "1881-1901", presidents: "21-25代" },
+    進歩主義時代: { years: "1901-1921", presidents: "26-28代" },
+    戦間期と大恐慌: { years: "1921-1945", presidents: "29-32代" },
+    冷戦と戦後再編: { years: "1945-1981", presidents: "33-39代" },
+    保守化とグローバル化: { years: "1981-2009", presidents: "40-43代" },
+    現代アメリカ: { years: "2009-現在", presidents: "44-47代" }
   };
 
   function escapeHtml(value) {
@@ -132,88 +122,6 @@
     return `<span class="term-line">${escapeHtml(termValue)}</span>`;
   }
 
-  function renderPickerCurrent(president) {
-    pickerCurrent.innerHTML = `<span class="picker-row-with-party"><span class="picker-name-row"><span class="picker-index">${president.id}.</span><span class="name-stack"><span class="name-ja">${escapeHtml(president.jpName)}</span><span class="name-en">${escapeHtml(president.name)}</span></span></span>${renderPartyChip(
-      president.party
-    )}</span>`;
-  }
-
-  function buildEraOptions() {
-    const eras = [...new Set(presidents.map((p) => p.era).filter(Boolean))];
-    eraList.innerHTML = [
-      `<li role="option" aria-selected="false"><button type="button" class="era-option" data-era-value="all">${renderEraLabel(
-        "all"
-      )}</button></li>`,
-      ...eras.map(
-        (era) =>
-          `<li role="option" aria-selected="false"><button type="button" class="era-option" data-era-value="${escapeHtml(
-            era
-          )}">${renderEraLabel(era)}</button></li>`
-      )
-    ].join("");
-  }
-
-  function renderEraLabel(eraValue) {
-    const meta = eraMetaMap[eraValue] || { years: "", name: eraValue, presidents: "" };
-    const yearsHtml = meta.years ? `<span class="era-years">${escapeHtml(meta.years)}</span>` : "";
-    const nameHtml = `<span class="era-name">${escapeHtml(meta.name)}</span>`;
-    const rangeHtml = meta.presidents ? `<span class="era-presidents">${escapeHtml(meta.presidents)}</span>` : "";
-    return `<span class="era-label">${yearsHtml}${nameHtml}${rangeHtml}</span>`;
-  }
-
-  function renderEraCurrent() {
-    eraCurrent.innerHTML = renderEraLabel(selectedEra);
-    eraList.querySelectorAll(".era-option").forEach((optionEl) => {
-      const isActive = optionEl.dataset.eraValue === selectedEra;
-      optionEl.classList.toggle("active", isActive);
-      optionEl.parentElement?.setAttribute("aria-selected", String(isActive));
-    });
-  }
-
-  function syncScrollLock() {
-    const hasOpenList = !pickerList.hidden || !eraList.hidden;
-    document.body.style.overflowY = hasOpenList ? "hidden" : "";
-  }
-
-  function setEraExpanded(isOpen) {
-    eraList.hidden = !isOpen;
-    eraButton.setAttribute("aria-expanded", String(isOpen));
-    if (isOpen) {
-      setPickerExpanded(false);
-    }
-    syncScrollLock();
-  }
-
-  function buildPickerOptions() {
-    pickerList.innerHTML = filteredPresidents
-      .map(
-        (p) => `<li role="option" aria-selected="false">
-          <button type="button" class="picker-option" data-president-id="${p.id}">
-            <span class="picker-row-with-party">
-              <span class="picker-name-row">
-                <span class="picker-index">${p.id}.</span>
-                <span class="name-stack">
-                  <span class="name-ja">${escapeHtml(p.jpName)}</span>
-                  <span class="name-en">${escapeHtml(p.name)}</span>
-                </span>
-              </span>
-              ${renderPartyChip(p.party)}
-            </span>
-          </button>
-        </li>`
-      )
-      .join("");
-  }
-
-  function setPickerExpanded(isOpen) {
-    pickerList.hidden = !isOpen;
-    pickerButton.setAttribute("aria-expanded", String(isOpen));
-    if (isOpen) {
-      setEraExpanded(false);
-    }
-    syncScrollLock();
-  }
-
   function renderLineage(activeId) {
     const axisMapByEra = {
       建国期: { "中央集権寄り": "連邦主導", "州権寄り": "州権重視", 中間: "調停" },
@@ -226,6 +134,7 @@
       保守化とグローバル化: { "中央集権寄り": "安全保障主導", "州権寄り": "市場重視", 中間: "中道路線" },
       現代アメリカ: { "中央集権寄り": "制度拡張", "州権寄り": "反制度志向", 中間: "分極調整" }
     };
+
     const eraPointMap = {
       建国期: "国家の土台づくりと、連邦と州の役割分担が中心課題。",
       拡張と分断前夜: "領土拡大の成功と引き換えに、奴隷制対立が先鋭化。",
@@ -269,7 +178,7 @@
           : "";
         const items = group.presidents
           .map((p) => {
-            const activeClass = p.id === activeId ? " style=\"border-color:#b14f2f;background:#fff4e5\"" : "";
+            const activeClass = p.id === activeId ? ' style="border-color:#b14f2f;background:#fff4e5"' : "";
             const slug = slugifyName(p.name);
             const imagePath = `./assets/presidents/${slug}.png`;
             return `<button type="button" class="lineage-item" data-president-id="${p.id}"${activeClass}>
@@ -291,6 +200,7 @@
             </button>`;
           })
           .join("");
+
         return `<section class="lineage-era-group" data-era="${escapeHtml(group.era)}">
           <div class="lineage-era-header">${eraYears}${eraName}${eraRange}</div>
           ${eraPoint}
@@ -309,42 +219,12 @@
     return false;
   }
 
-  function scrollLineageToEra(eraName) {
-    const eraEl = [...lineageTrack.querySelectorAll("[data-era]")].find(
-      (el) => el.dataset.era === eraName
-    );
-    if (eraEl) {
-      eraEl.scrollIntoView({ behavior: "smooth", block: "start" });
-      return true;
-    }
-    return false;
-  }
-
   function setActiveView(view) {
     activeView = view;
     const showNote = view === "note";
     const showLineage = view === "lineage";
     cardEl.hidden = !showNote;
     lineageViewEl.hidden = !showLineage;
-  }
-
-  function showLineageView({ scroll = true } = {}) {
-    setActiveView("lineage");
-    renderLineage(activePresidentId);
-    if (scroll) {
-      if (!scrollLineageToPresident(activePresidentId)) {
-        scrollToLineageTop();
-      }
-    }
-  }
-
-  function showNoteView(presidentId, { pushHistory = false } = {}) {
-    renderPresident(presidentId);
-    setActiveView("note");
-    scrollToImageTop();
-    if (pushHistory) {
-      window.history.pushState({ view: "note", presidentId: Number(presidentId) }, "");
-    }
   }
 
   function scrollToLineageTop() {
@@ -371,17 +251,13 @@
     });
   }
 
-  function renderPresident(id, options = {}) {
-    const { scroll = false, forceScroll = false, scrollTarget = "president" } = options;
+  function renderPresident(id) {
     const president = presidents.find((p) => p.id === Number(id)) || presidents[0];
     if (!president) {
       return;
     }
 
-    const previousPresidentId = activePresidentId;
-    const hasChanged = president.id !== previousPresidentId;
     activePresidentId = president.id;
-    renderPickerCurrent(president);
     renderSymbolVisual(president);
     symbolCaption.textContent = president.symbolCaption;
     rankEl.textContent = formatPresidencyLabel(president);
@@ -394,82 +270,31 @@
     originEl.textContent = president.origin;
     legacyEl.textContent = president.legacy;
 
-    pickerList.querySelectorAll(".picker-option").forEach((optionEl) => {
-      const isActive = Number(optionEl.dataset.presidentId) === president.id;
-      optionEl.classList.toggle("active", isActive);
-      optionEl.parentElement?.setAttribute("aria-selected", String(isActive));
-    });
-
     renderLineage(president.id);
+  }
 
-    if (scroll && (hasChanged || forceScroll)) {
-      if (activeView === "note") {
-        scrollToImageTop();
-      } else {
-        const didJump =
-          scrollTarget === "era" && selectedEra !== "all"
-            ? scrollLineageToEra(selectedEra)
-            : scrollLineageToPresident(president.id);
-        if (!didJump) {
-          scrollToLineageTop();
-        }
+  function showLineageView({ scroll = true } = {}) {
+    setActiveView("lineage");
+    renderLineage(activePresidentId);
+    if (scroll) {
+      if (!scrollLineageToPresident(activePresidentId)) {
+        scrollToLineageTop();
       }
     }
   }
 
-  function applyEraFilter(options = {}) {
-    const { scroll = false } = options;
-    const previousPresidentId = activePresidentId;
-    filteredPresidents =
-      selectedEra === "all" ? [...presidents] : presidents.filter((p) => p.era === selectedEra);
-    if (!filteredPresidents.length) {
-      filteredPresidents = [...presidents];
+  function showNoteView(presidentId, { pushHistory = false } = {}) {
+    renderPresident(presidentId);
+    setActiveView("note");
+    scrollToImageTop();
+    if (pushHistory) {
+      window.history.pushState({ view: "note", presidentId: Number(presidentId) }, "");
     }
-    if (!filteredPresidents.some((p) => p.id === activePresidentId)) {
-      activePresidentId = filteredPresidents[0].id;
-    }
-    buildPickerOptions();
-    renderEraCurrent();
-    const changedByFilter = previousPresidentId !== activePresidentId;
-    renderPresident(activePresidentId, {
-      scroll,
-      forceScroll: changedByFilter || (scroll && activeView === "lineage"),
-      scrollTarget: selectedEra === "all" ? "president" : "era"
-    });
-    setPickerExpanded(false);
-    setEraExpanded(false);
   }
 
-  buildEraOptions();
-  applyEraFilter();
+  renderPresident(activePresidentId);
   setActiveView("lineage");
   window.history.replaceState(historyStateLineage, "");
-
-  eraButton.addEventListener("click", () => {
-    setEraExpanded(eraList.hidden);
-  });
-
-  eraList.addEventListener("click", (event) => {
-    const target = event.target.closest(".era-option");
-    if (!target) {
-      return;
-    }
-    selectedEra = target.dataset.eraValue || "all";
-    applyEraFilter({ scroll: true });
-  });
-
-  pickerButton.addEventListener("click", () => {
-    setPickerExpanded(pickerList.hidden);
-  });
-
-  pickerList.addEventListener("click", (event) => {
-    const target = event.target.closest(".picker-option");
-    if (!target) {
-      return;
-    }
-    renderPresident(Number(target.dataset.presidentId), { scroll: true });
-    setPickerExpanded(false);
-  });
 
   lineageTrack.addEventListener("click", (event) => {
     const item = event.target.closest(".lineage-item");
@@ -494,21 +319,5 @@
       return;
     }
     showLineageView();
-  });
-
-  document.addEventListener("click", (event) => {
-    if (!picker.contains(event.target)) {
-      setPickerExpanded(false);
-    }
-    if (!eraPicker.contains(event.target)) {
-      setEraExpanded(false);
-    }
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      setPickerExpanded(false);
-      setEraExpanded(false);
-    }
   });
 })();
