@@ -239,7 +239,11 @@
     if (!toggleAllErasButton) {
       return;
     }
-    toggleAllErasButton.textContent = areAllErasExpanded() ? "すべて閉じる" : "すべて開く";
+    const collapseAll = areAllErasExpanded();
+    toggleAllErasButton.textContent = collapseAll ? "⊟" : "⊞";
+    const label = collapseAll ? "すべて閉じる" : "すべて開く";
+    toggleAllErasButton.setAttribute("aria-label", label);
+    toggleAllErasButton.setAttribute("title", label);
   }
 
   function scrollLineageToPresident(presidentId) {

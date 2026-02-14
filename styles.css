@@ -108,15 +108,18 @@ h1 {
   appearance: none;
   -webkit-appearance: none;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 10px;
   background: #fff;
   color: var(--ink);
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1;
-  padding: 7px 10px;
-  white-space: nowrap;
+  width: 34px;
+  height: 30px;
+  padding: 0;
+  display: grid;
+  place-items: center;
   cursor: pointer;
 }
 
@@ -565,11 +568,12 @@ dd {
 }
 
 .lineage-era-header {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  column-gap: 6px;
   align-items: baseline;
   font-size: 0.9rem;
+  width: 100%;
 }
 
 .lineage-era-toggle {
@@ -609,6 +613,8 @@ dd {
 .lineage-era-range {
   color: var(--muted);
   font-size: 0.84rem;
+  justify-self: end;
+  text-align: right;
 }
 
 .lineage-era-point {
