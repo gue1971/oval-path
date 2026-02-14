@@ -11,11 +11,6 @@
   const termEl = document.getElementById("pi-term");
   const partyEl = document.getElementById("pi-party");
   const keywordsEl = document.getElementById("pi-keywords");
-  const infoModalEl = document.getElementById("info-modal");
-  const infoModalBackdropEl = document.getElementById("info-modal-backdrop");
-  const infoModalTitleEl = document.getElementById("info-modal-title");
-  const infoModalBodyEl = document.getElementById("info-modal-body");
-  const infoModalCloseEl = document.getElementById("info-modal-close");
   const originEl = document.getElementById("note-origin");
   const legacyEl = document.getElementById("note-legacy");
   const lineageTrack = document.getElementById("lineage-track");
@@ -239,107 +234,6 @@
     updateToggleAllButtonLabel();
   }
 
-  function getActivePresident() {
-    return presidents.find((p) => p.id === activePresidentId) || presidents[0];
-  }
-
-  function buildSymbolModalHtml(president) {
-    const paragraphs = [
-      `このイラストのモチーフは「${president.symbolCaption}」です。${president.jpName}をひと目で思い出せるように選んでいます。`,
-      `背景や遺産の詳しい説明は、別カードでゆっくり読めます。`
-    ];
-    return paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("");
-  }
-
-  function splitSentences(text) {
-    return String(text || "")
-      .replaceAll(/\s+/g, " ")
-      .match(/[^。！？]+[。！？]?/g)
-      ?.map((s) => s.trim())
-      .filter((s) => s.length >= 14) || [];
-  }
-
-  function keywordTokens(keyword) {
-    const raw = String(keyword || "").trim();
-    const parts = raw
-      .split(/[・\s/／,，]/)
-      .map((t) => t.trim())
-      .filter((t) => t.length >= 2);
-    return [raw, ...parts].filter(Boolean);
-  }
-
-  function scoreSentence(sentence, tokens) {
-    let score = 0;
-    for (const token of tokens) {
-      if (sentence.includes(token)) {
-        score += token.length >= 4 ? 6 : 4;
-      }
-    }
-    if (/法|戦争|外交|選挙|改革|危機|経済|統治|再建|連邦|州|安全保障|公民権/.test(sentence)) {
-      score += 2;
-    }
-    return score;
-  }
-
-  function selectKeywordSentences(president, keyword, maxCount = 2) {
-    const tokens = keywordTokens(keyword);
-    const pool = [...splitSentences(president.origin), ...splitSentences(president.legacy)];
-    const ranked = pool
-      .map((sentence) => ({ sentence, score: scoreSentence(sentence, tokens) }))
-      .sort((a, b) => b.score - a.score);
-
-    const selected = [];
-    for (const item of ranked) {
-      if (!item.sentence || selected.includes(item.sentence)) {
-        continue;
-      }
-      if (item.score <= 0 && selected.length > 0) {
-        continue;
-      }
-      selected.push(item.sentence);
-      if (selected.length >= maxCount) {
-        break;
-      }
-    }
-
-    if (selected.length < maxCount) {
-      for (const sentence of pool) {
-        if (!selected.includes(sentence)) {
-          selected.push(sentence);
-          if (selected.length >= maxCount) {
-            break;
-          }
-        }
-      }
-    }
-    return selected.slice(0, maxCount);
-  }
-
-  function buildKeywordModalHtml(president, keyword) {
-    const lines = selectKeywordSentences(president, keyword, 2);
-    const heading = `「${keyword}」について`;
-    const paragraphs = [`${president.jpName}（${president.term}）`, ...lines];
-    return `<p>${escapeHtml(heading)}</p>${paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("")}`;
-  }
-
-  function openInfoModal(title, htmlContent) {
-    if (!infoModalEl || !infoModalTitleEl || !infoModalBodyEl) {
-      return;
-    }
-    infoModalTitleEl.textContent = title;
-    infoModalBodyEl.innerHTML = htmlContent;
-    infoModalEl.hidden = false;
-    document.body.style.overflow = "hidden";
-  }
-
-  function closeInfoModal() {
-    if (!infoModalEl) {
-      return;
-    }
-    infoModalEl.hidden = true;
-    document.body.style.overflow = "";
-  }
-
   function areAllErasExpanded() {
     return eraNames.every((era) => expandedEras.has(era));
   }
@@ -424,10 +318,7 @@
     termEl.innerHTML = renderTerm(president.term);
     partyEl.textContent = president.party;
     keywordsEl.innerHTML = `<ul class="keyword-list">${president.keywords
-      .map(
-        (keyword, index) =>
-          `<li><button type="button" class="keyword-trigger" data-keyword-index="${index}">${escapeHtml(keyword)}</button></li>`
-      )
+      .map((keyword) => `<li>${escapeHtml(keyword)}</li>`)
       .join("")}</ul>`;
     originEl.textContent = president.origin;
     legacyEl.textContent = president.legacy;
@@ -519,30 +410,6 @@
     scrollToImageTop();
   });
 
-  symbolCaption.addEventListener("click", (event) => {
-    event.stopPropagation();
-    const president = getActivePresident();
-    openInfoModal(`${president.jpName} の象徴`, buildSymbolModalHtml(president));
-  });
-
-  keywordsEl.addEventListener("click", (event) => {
-    const trigger = event.target.closest(".keyword-trigger");
-    if (!trigger) {
-      return;
-    }
-    event.stopPropagation();
-    const president = getActivePresident();
-    const index = Number(trigger.dataset.keywordIndex);
-    const keyword = president.keywords[index];
-    if (!keyword) {
-      return;
-    }
-    openInfoModal(`${president.jpName} のキーワード`, buildKeywordModalHtml(president, keyword));
-  });
-
-  infoModalCloseEl?.addEventListener("click", closeInfoModal);
-  infoModalBackdropEl?.addEventListener("click", closeInfoModal);
-
   cardEl.addEventListener(
     "touchstart",
     (event) => {
@@ -576,17 +443,10 @@
   );
 
   window.addEventListener("popstate", (event) => {
-    closeInfoModal();
     if (event.state?.view === "note") {
       showNoteView(event.state.presidentId ?? activePresidentId);
       return;
     }
     showLineageView();
-  });
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      closeInfoModal();
-    }
   });
 })();
