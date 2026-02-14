@@ -157,13 +157,33 @@
   }
 
   function renderLineage(activeId) {
+    const axisMapByEra = {
+      建国期: { "中央集権寄り": "連邦主導", "州権寄り": "州権重視", 中間: "調停" },
+      拡張と分断前夜: { "中央集権寄り": "連邦統合", "州権寄り": "州主権", 中間: "妥協志向" },
+      南北戦争と再建: { "中央集権寄り": "連邦介入", "州権寄り": "州自治", 中間: "再建調整" },
+      産業化と改革: { "中央集権寄り": "規制強化", "州権寄り": "市場自律", 中間: "漸進改革" },
+      進歩主義時代: { "中央集権寄り": "改革推進", "州権寄り": "抑制志向", 中間: "制度調整" },
+      戦間期と大恐慌: { "中央集権寄り": "国家介入", "州権寄り": "小さな政府", 中間: "限定介入" },
+      冷戦と戦後再編: { "中央集権寄り": "連邦主導", "州権寄り": "分権志向", 中間: "現実調整" },
+      保守化とグローバル化: { "中央集権寄り": "安全保障主導", "州権寄り": "市場重視", 中間: "中道路線" },
+      現代アメリカ: { "中央集権寄り": "制度拡張", "州権寄り": "反制度志向", 中間: "分極調整" }
+    };
+
+    const renderAxisLabel = (president) => {
+      const byEra = axisMapByEra[president.era];
+      if (!byEra) {
+        return president.axis;
+      }
+      return byEra[president.axis] || president.axis;
+    };
+
     lineageTrack.innerHTML = presidents
       .map((p) => {
         const activeClass = p.id === activeId ? " style=\"border-color:#b14f2f;background:#fff4e5\"" : "";
         return `<div class="lineage-item"${activeClass}>
           <span class="index">#${p.id}</span>
           ${renderNameStack(p.jpName, p.name)}
-          <span class="axis">${p.axis}</span>
+          <span class="axis">${escapeHtml(renderAxisLabel(p))}</span>
         </div>`;
       })
       .join("");
