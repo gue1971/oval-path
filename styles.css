@@ -413,9 +413,49 @@ dd {
 
 .lineage-track {
   display: grid;
-  gap: 8px;
+  gap: 12px;
   max-height: none;
   overflow: visible;
+}
+
+.lineage-era-group {
+  border: 1px solid #d8cfbb;
+  border-radius: 12px;
+  background: #fffaf0;
+  padding: 8px;
+}
+
+.lineage-era-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: baseline;
+  font-size: 0.9rem;
+}
+
+.lineage-era-years {
+  font-weight: 700;
+}
+
+.lineage-era-name {
+  font-weight: 700;
+}
+
+.lineage-era-range {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.lineage-era-point {
+  margin: 5px 0 8px;
+  font-size: 0.84rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.lineage-era-list {
+  display: grid;
+  gap: 8px;
 }
 
 .lineage-item {

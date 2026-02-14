@@ -168,6 +168,17 @@
       保守化とグローバル化: { "中央集権寄り": "安全保障主導", "州権寄り": "市場重視", 中間: "中道路線" },
       現代アメリカ: { "中央集権寄り": "制度拡張", "州権寄り": "反制度志向", 中間: "分極調整" }
     };
+    const eraPointMap = {
+      建国期: "国家の土台づくりと、連邦と州の役割分担が中心課題。",
+      拡張と分断前夜: "領土拡大の成功と引き換えに、奴隷制対立が先鋭化。",
+      南北戦争と再建: "国家の再統合と公民権保護を、どこまで連邦が担うかが争点。",
+      産業化と改革: "急成長する資本主義を、規制と市場のどちらで制御するか。",
+      進歩主義時代: "社会問題への改革介入と、制度の持続可能性のバランス。",
+      戦間期と大恐慌: "小さな政府志向から、危機時の国家介入拡大への転換。",
+      冷戦と戦後再編: "対外抑止と国内改革を同時に進める複合統治の時代。",
+      保守化とグローバル化: "市場重視の再編と、国際秩序管理の現実外交が並行。",
+      現代アメリカ: "分極社会で制度運用の安定と、支持基盤政治の両立が課題。"
+    };
 
     const renderAxisLabel = (president) => {
       const byEra = axisMapByEra[president.era];
@@ -177,14 +188,42 @@
       return byEra[president.axis] || president.axis;
     };
 
-    lineageTrack.innerHTML = presidents
-      .map((p) => {
-        const activeClass = p.id === activeId ? " style=\"border-color:#b14f2f;background:#fff4e5\"" : "";
-        return `<div class="lineage-item"${activeClass}>
-          <span class="index">#${p.id}</span>
-          ${renderNameStack(p.jpName, p.name)}
-          <span class="axis">${escapeHtml(renderAxisLabel(p))}</span>
-        </div>`;
+    const eraGroups = presidents.reduce((groups, president) => {
+      const lastGroup = groups[groups.length - 1];
+      if (!lastGroup || lastGroup.era !== president.era) {
+        groups.push({ era: president.era, presidents: [president] });
+      } else {
+        lastGroup.presidents.push(president);
+      }
+      return groups;
+    }, []);
+
+    lineageTrack.innerHTML = eraGroups
+      .map((group) => {
+        const eraMeta = eraMetaMap[group.era] || { years: "", presidents: "" };
+        const eraYears = eraMeta.years ? `<span class="lineage-era-years">${escapeHtml(eraMeta.years)}</span>` : "";
+        const eraName = `<span class="lineage-era-name">${escapeHtml(group.era)}</span>`;
+        const eraRange = eraMeta.presidents
+          ? `<span class="lineage-era-range">${escapeHtml(eraMeta.presidents)}</span>`
+          : "";
+        const eraPoint = eraPointMap[group.era]
+          ? `<p class="lineage-era-point">${escapeHtml(eraPointMap[group.era])}</p>`
+          : "";
+        const items = group.presidents
+          .map((p) => {
+            const activeClass = p.id === activeId ? " style=\"border-color:#b14f2f;background:#fff4e5\"" : "";
+            return `<div class="lineage-item"${activeClass}>
+              <span class="index">#${p.id}</span>
+              ${renderNameStack(p.jpName, p.name)}
+              <span class="axis">${escapeHtml(renderAxisLabel(p))}</span>
+            </div>`;
+          })
+          .join("");
+        return `<section class="lineage-era-group">
+          <div class="lineage-era-header">${eraYears}${eraName}${eraRange}</div>
+          ${eraPoint}
+          <div class="lineage-era-list">${items}</div>
+        </section>`;
       })
       .join("");
   }
