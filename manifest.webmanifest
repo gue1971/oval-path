@@ -1,0 +1,29 @@
+{
+  "name": "アメリカ合衆国大統領",
+  "short_name": "大統領",
+  "description": "アメリカ合衆国大統領の思想の系譜と背景・遺産を学べるアプリ",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d1f4b",
+  "theme_color": "#0d1f4b",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "./assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "./assets/icons/maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
