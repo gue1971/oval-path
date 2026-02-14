@@ -31,13 +31,16 @@
   let activePresidentId = presidents[0].id;
   let selectedEra = "all";
   const eraMetaMap = {
-    all: { years: "", name: "全時代", presidents: "1-32代" },
+    all: { years: "", name: "全時代", presidents: "1-47代" },
     建国期: { years: "1789-1841", name: "建国期", presidents: "1-8代" },
     拡張と分断前夜: { years: "1841-1861", name: "拡張と分断前夜", presidents: "9-15代" },
     南北戦争と再建: { years: "1861-1881", name: "南北戦争と再建", presidents: "16-20代" },
     産業化と改革: { years: "1881-1901", name: "産業化と改革", presidents: "21-25代" },
     進歩主義時代: { years: "1901-1921", name: "進歩主義時代", presidents: "26-28代" },
-    戦間期と大恐慌: { years: "1921-1945", name: "戦間期と大恐慌", presidents: "29-32代" }
+    戦間期と大恐慌: { years: "1921-1945", name: "戦間期と大恐慌", presidents: "29-32代" },
+    冷戦と戦後再編: { years: "1945-1981", name: "冷戦と戦後再編", presidents: "33-39代" },
+    保守化とグローバル化: { years: "1981-2009", name: "保守化とグローバル化", presidents: "40-43代" },
+    現代アメリカ: { years: "2009-現在", name: "現代アメリカ", presidents: "44-47代" }
   };
 
   function escapeHtml(value) {
