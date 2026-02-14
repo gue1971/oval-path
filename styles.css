@@ -248,7 +248,7 @@ h1 {
 }
 
 .note-card {
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 .image-frame {
@@ -289,7 +289,6 @@ h1 {
   background: linear-gradient(180deg, rgb(227 214 188 / 95%), rgb(241 233 214 / 70%));
 }
 
-.note h2,
 .lineage h2,
 .roadmap h2 {
   font-size: 1.15rem;
@@ -348,19 +347,19 @@ dd {
   border-top: 2px solid #b7aa8c;
   background: #fffdf8;
   box-shadow: inset 0 10px 0 rgb(229 217 192 / 35%);
+  padding-top: 12px;
 }
 
 .note-grid {
-  margin-top: 12px;
+  margin-top: 0;
   display: grid;
   gap: 12px;
 }
 
 .note-grid article {
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid #ddd3bd;
-  background: #fffcf4;
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .note-grid h3 {
