@@ -58,6 +58,7 @@
   function setPickerExpanded(isOpen) {
     pickerList.hidden = !isOpen;
     pickerButton.setAttribute("aria-expanded", String(isOpen));
+    document.body.style.overflowY = isOpen ? "hidden" : "";
   }
 
   function renderLineage(activeId) {
