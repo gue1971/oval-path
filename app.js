@@ -1,7 +1,10 @@
 (function initOvalPath() {
   const presidents = window.PRESIDENTS || [];
 
-  const select = document.getElementById("president-select");
+  const picker = document.getElementById("president-picker");
+  const pickerButton = document.getElementById("picker-button");
+  const pickerCurrent = document.getElementById("picker-current");
+  const pickerList = document.getElementById("picker-list");
   const symbolArt = document.getElementById("symbol-art");
   const symbolCaption = document.getElementById("symbol-caption");
   const nameEl = document.getElementById("pi-name");
@@ -30,10 +33,28 @@
     return `<span class="name-stack"><span class="name-ja">${escapeHtml(jpName)}</span><span class="name-en">${escapeHtml(enName)}</span></span>`;
   }
 
-  function buildSelectOptions() {
-    select.innerHTML = presidents
-      .map((p) => `<option value="${p.id}">${p.id}. ${p.jpName}\n    ${p.name}</option>`)
+  function renderPickerCurrent(president) {
+    pickerCurrent.innerHTML = `<span class="name-stack"><span class="name-ja">${president.id}. ${escapeHtml(president.jpName)}</span><span class="name-en">${escapeHtml(president.name)}</span></span>`;
+  }
+
+  function buildPickerOptions() {
+    pickerList.innerHTML = presidents
+      .map(
+        (p) => `<li role="option" aria-selected="false">
+          <button type="button" class="picker-option" data-president-id="${p.id}">
+            <span class="name-stack">
+              <span class="name-ja">${p.id}. ${escapeHtml(p.jpName)}</span>
+              <span class="name-en">${escapeHtml(p.name)}</span>
+            </span>
+          </button>
+        </li>`
+      )
       .join("");
+  }
+
+  function setPickerExpanded(isOpen) {
+    pickerList.hidden = !isOpen;
+    pickerButton.setAttribute("aria-expanded", String(isOpen));
   }
 
   function renderLineage(activeId) {
@@ -52,6 +73,7 @@
   function renderPresident(id) {
     const president = presidents.find((p) => p.id === Number(id)) || presidents[0];
 
+    renderPickerCurrent(president);
     symbolArt.textContent = president.symbol;
     symbolCaption.textContent = president.symbolCaption;
     nameEl.innerHTML = renderNameStack(president.jpName, president.name);
@@ -61,14 +83,40 @@
     originEl.textContent = president.origin;
     legacyEl.textContent = president.legacy;
 
+    pickerList.querySelectorAll(".picker-option").forEach((optionEl) => {
+      const isActive = Number(optionEl.dataset.presidentId) === president.id;
+      optionEl.classList.toggle("active", isActive);
+      optionEl.parentElement?.setAttribute("aria-selected", String(isActive));
+    });
+
     renderLineage(president.id);
   }
 
-  buildSelectOptions();
-  select.value = String(presidents[0].id);
-  renderPresident(select.value);
+  buildPickerOptions();
+  renderPresident(presidents[0].id);
 
-  select.addEventListener("change", (event) => {
-    renderPresident(event.target.value);
+  pickerButton.addEventListener("click", () => {
+    setPickerExpanded(pickerList.hidden);
+  });
+
+  pickerList.addEventListener("click", (event) => {
+    const target = event.target.closest(".picker-option");
+    if (!target) {
+      return;
+    }
+    renderPresident(target.dataset.presidentId);
+    setPickerExpanded(false);
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!picker.contains(event.target)) {
+      setPickerExpanded(false);
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      setPickerExpanded(false);
+    }
   });
 })();

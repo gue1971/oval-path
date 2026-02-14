@@ -15,7 +15,19 @@
   <body>
     <main class="app-shell">
       <section class="controls" aria-label="表示コントロール">
-        <select id="president-select" aria-label="大統領を選ぶ"></select>
+        <div class="president-picker" id="president-picker">
+          <button
+            type="button"
+            id="picker-button"
+            class="picker-button"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-label="大統領を選ぶ"
+          >
+            <span id="picker-current"></span>
+          </button>
+          <ul id="picker-list" class="picker-list" role="listbox" hidden></ul>
+        </div>
       </section>
 
       <article class="card" id="president-card" aria-live="polite">

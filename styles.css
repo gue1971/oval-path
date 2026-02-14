@@ -65,19 +65,58 @@ h1 {
   display: grid;
 }
 
-select {
+.president-picker {
+  position: relative;
+}
+
+.picker-button {
+  width: 100%;
   font: inherit;
   color: var(--ink);
+  text-align: left;
   border: 1px solid var(--line);
   border-radius: 12px;
   background: #fff;
   padding: 11px;
-  white-space: pre-line;
-  line-height: 1.4;
+  cursor: pointer;
 }
 
-option {
-  white-space: pre-line;
+.picker-list {
+  position: absolute;
+  z-index: 8;
+  left: 0;
+  right: 0;
+  margin: 6px 0 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 18px rgb(31 37 48 / 12%);
+  max-height: min(48vh, 320px);
+  overflow: auto;
+}
+
+.picker-option {
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #fff;
+  padding: 9px 10px;
+  cursor: pointer;
+}
+
+.picker-option:hover {
+  background: #fbf4e7;
+  border-color: #e3d7be;
+}
+
+.picker-option.active {
+  background: #fff4e5;
+  border-color: #d8b18b;
 }
 
 .card {
