@@ -80,6 +80,30 @@ h1 {
   gap: 8px;
 }
 
+.view-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 0 auto 10px;
+  max-width: 560px;
+}
+
+.view-tab {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 9px 10px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.view-tab.active {
+  background: #fff4e5;
+  border-color: #d8b18b;
+}
+
 .era-picker {
   position: relative;
 }
@@ -390,9 +414,8 @@ dd {
 .lineage-track {
   display: grid;
   gap: 8px;
-  max-height: 200px;
-  overflow: auto;
-  padding-right: 4px;
+  max-height: none;
+  overflow: visible;
 }
 
 .lineage-item {

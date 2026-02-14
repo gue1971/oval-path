@@ -3,6 +3,8 @@
 
   const picker = document.getElementById("president-picker");
   const controlsEl = document.querySelector(".controls");
+  const tabNoteButton = document.getElementById("tab-note");
+  const tabLineageButton = document.getElementById("tab-lineage");
   const eraPicker = document.getElementById("era-picker");
   const eraButton = document.getElementById("era-button");
   const eraCurrent = document.getElementById("era-current");
@@ -21,6 +23,7 @@
   const legacyEl = document.getElementById("note-legacy");
   const lineageTrack = document.getElementById("lineage-track");
   const cardEl = document.getElementById("president-card");
+  const lineageViewEl = document.getElementById("lineage-view");
 
   if (!presidents.length) {
     document.body.innerHTML = "<p>データが見つかりませんでした。</p>";
@@ -30,6 +33,7 @@
   let filteredPresidents = [...presidents];
   let activePresidentId = presidents[0].id;
   let selectedEra = "all";
+  let activeView = "note";
   const eraMetaMap = {
     all: { years: "", name: "全時代", presidents: "1-47代" },
     建国期: { years: "1789-1841", name: "建国期", presidents: "1-8代" },
@@ -153,7 +157,7 @@
   }
 
   function renderLineage(activeId) {
-    lineageTrack.innerHTML = filteredPresidents
+    lineageTrack.innerHTML = presidents
       .map((p) => {
         const activeClass = p.id === activeId ? " style=\"border-color:#b14f2f;background:#fff4e5\"" : "";
         return `<div class="lineage-item"${activeClass}>
@@ -163,6 +167,27 @@
         </div>`;
       })
       .join("");
+  }
+
+  function setActiveView(view) {
+    activeView = view;
+    const showNote = view === "note";
+    cardEl.hidden = !showNote;
+    lineageViewEl.hidden = showNote;
+    tabNoteButton.classList.toggle("active", showNote);
+    tabLineageButton.classList.toggle("active", !showNote);
+  }
+
+  function scrollToLineageTop() {
+    if (!lineageViewEl) {
+      return;
+    }
+    const controlsHeight = controlsEl ? controlsEl.offsetHeight : 0;
+    const top = lineageViewEl.getBoundingClientRect().top + window.scrollY - controlsHeight - 6;
+    window.scrollTo({
+      top: Math.max(top, 0),
+      behavior: "smooth"
+    });
   }
 
   function scrollToImageTop() {
@@ -209,7 +234,11 @@
     renderLineage(president.id);
 
     if (scroll && (hasChanged || forceScroll)) {
-      scrollToImageTop();
+      if (activeView === "note") {
+        scrollToImageTop();
+      } else {
+        scrollToLineageTop();
+      }
     }
   }
 
@@ -234,6 +263,7 @@
 
   buildEraOptions();
   applyEraFilter();
+  setActiveView("note");
 
   eraButton.addEventListener("click", () => {
     setEraExpanded(eraList.hidden);
@@ -259,6 +289,17 @@
     }
     renderPresident(Number(target.dataset.presidentId), { scroll: true });
     setPickerExpanded(false);
+  });
+
+  tabNoteButton.addEventListener("click", () => {
+    setActiveView("note");
+    scrollToImageTop();
+  });
+
+  tabLineageButton.addEventListener("click", () => {
+    setActiveView("lineage");
+    renderLineage(activePresidentId);
+    scrollToLineageTop();
   });
 
   document.addEventListener("click", (event) => {
