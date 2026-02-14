@@ -212,20 +212,40 @@
         const items = group.presidents
           .map((p) => {
             const activeClass = p.id === activeId ? " style=\"border-color:#b14f2f;background:#fff4e5\"" : "";
-            return `<div class="lineage-item"${activeClass}>
+            return `<div class="lineage-item" data-president-id="${p.id}"${activeClass}>
               <span class="index">#${p.id}</span>
               ${renderNameStack(p.jpName, p.name)}
               <span class="axis">${escapeHtml(renderAxisLabel(p))}</span>
             </div>`;
           })
           .join("");
-        return `<section class="lineage-era-group">
+        return `<section class="lineage-era-group" data-era="${escapeHtml(group.era)}">
           <div class="lineage-era-header">${eraYears}${eraName}${eraRange}</div>
           ${eraPoint}
           <div class="lineage-era-list">${items}</div>
         </section>`;
       })
       .join("");
+  }
+
+  function scrollLineageToPresident(presidentId) {
+    const itemEl = lineageTrack.querySelector(`[data-president-id="${presidentId}"]`);
+    if (itemEl) {
+      itemEl.scrollIntoView({ behavior: "smooth", block: "center" });
+      return true;
+    }
+    return false;
+  }
+
+  function scrollLineageToEra(eraName) {
+    const eraEl = [...lineageTrack.querySelectorAll("[data-era]")].find(
+      (el) => el.dataset.era === eraName
+    );
+    if (eraEl) {
+      eraEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      return true;
+    }
+    return false;
   }
 
   function setActiveView(view) {
@@ -262,7 +282,7 @@
   }
 
   function renderPresident(id, options = {}) {
-    const { scroll = false, forceScroll = false } = options;
+    const { scroll = false, forceScroll = false, scrollTarget = "president" } = options;
     const president = presidents.find((p) => p.id === Number(id)) || presidents[0];
     if (!president) {
       return;
@@ -296,7 +316,13 @@
       if (activeView === "note") {
         scrollToImageTop();
       } else {
-        scrollToLineageTop();
+        const didJump =
+          scrollTarget === "era" && selectedEra !== "all"
+            ? scrollLineageToEra(selectedEra)
+            : scrollLineageToPresident(president.id);
+        if (!didJump) {
+          scrollToLineageTop();
+        }
       }
     }
   }
@@ -315,7 +341,11 @@
     buildPickerOptions();
     renderEraCurrent();
     const changedByFilter = previousPresidentId !== activePresidentId;
-    renderPresident(activePresidentId, { scroll, forceScroll: changedByFilter });
+    renderPresident(activePresidentId, {
+      scroll,
+      forceScroll: changedByFilter || (scroll && activeView === "lineage"),
+      scrollTarget: selectedEra === "all" ? "president" : "era"
+    });
     setPickerExpanded(false);
     setEraExpanded(false);
   }
@@ -358,7 +388,9 @@
   tabLineageButton.addEventListener("click", () => {
     setActiveView("lineage");
     renderLineage(activePresidentId);
-    scrollToLineageTop();
+    if (!scrollLineageToPresident(activePresidentId)) {
+      scrollToLineageTop();
+    }
   });
 
   document.addEventListener("click", (event) => {
