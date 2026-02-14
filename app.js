@@ -30,6 +30,15 @@
   let filteredPresidents = [...presidents];
   let activePresidentId = presidents[0].id;
   let selectedEra = "all";
+  const eraLabelMap = {
+    all: "全時代（1789-1945）",
+    建国期: "建国期（1789-1841）",
+    拡張と分断前夜: "拡張と分断前夜（1841-1861）",
+    南北戦争と再建: "南北戦争と再建（1861-1881）",
+    産業化と改革: "産業化と改革（1881-1901）",
+    進歩主義時代: "進歩主義時代（1901-1921）",
+    戦間期と大恐慌: "戦間期と大恐慌（1921-1945）"
+  };
 
   function escapeHtml(value) {
     return String(value)
@@ -70,18 +79,20 @@
   function buildEraOptions() {
     const eras = [...new Set(presidents.map((p) => p.era).filter(Boolean))];
     eraList.innerHTML = [
-      `<li role="option" aria-selected="false"><button type="button" class="era-option" data-era-value="all">全時代</button></li>`,
+      `<li role="option" aria-selected="false"><button type="button" class="era-option" data-era-value="all">${escapeHtml(
+        eraLabelMap.all
+      )}</button></li>`,
       ...eras.map(
         (era) =>
           `<li role="option" aria-selected="false"><button type="button" class="era-option" data-era-value="${escapeHtml(
             era
-          )}">${escapeHtml(era)}</button></li>`
+          )}">${escapeHtml(eraLabelMap[era] || era)}</button></li>`
       )
     ].join("");
   }
 
   function renderEraCurrent() {
-    const buttonLabel = selectedEra === "all" ? "全時代" : selectedEra;
+    const buttonLabel = eraLabelMap[selectedEra] || selectedEra;
     eraCurrent.textContent = buttonLabel;
     eraList.querySelectorAll(".era-option").forEach((optionEl) => {
       const isActive = optionEl.dataset.eraValue === selectedEra;
