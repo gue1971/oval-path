@@ -334,8 +334,6 @@ h1 {
 
 .card {
   margin-top: 0;
-  position: relative;
-  padding-bottom: 44px;
 }
 
 .back-button {
@@ -343,7 +341,7 @@ h1 {
   -webkit-appearance: none;
   position: absolute;
   right: 10px;
-  bottom: 0;
+  bottom: 10px;
   width: 34px;
   height: 34px;
   border: 1px solid #d8cfbb;
@@ -373,6 +371,8 @@ h1 {
 
 .note-card {
   margin-top: 8px;
+  position: relative;
+  padding-bottom: 50px;
 }
 
 .image-frame {
