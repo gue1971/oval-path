@@ -279,7 +279,10 @@
               <span class="index party-${getPartyKey(p.party)}">#${p.id}</span>
               <span class="lineage-main">
                 ${renderNameStack(p.jpName, p.name)}
-                <span class="axis">${escapeHtml(renderAxisLabel(p))}</span>
+                <span class="axis-row">
+                  ${renderPartyChip(p.party)}
+                  <span class="axis">${escapeHtml(renderAxisLabel(p))}</span>
+                </span>
               </span>
               <img
                 class="lineage-thumb"

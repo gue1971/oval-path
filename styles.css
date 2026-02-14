@@ -598,6 +598,13 @@ dd {
   min-width: 0;
 }
 
+.axis-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
 .lineage-item .axis {
   font-size: 0.82rem;
   color: var(--muted);
