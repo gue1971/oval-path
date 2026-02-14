@@ -157,13 +157,14 @@
   }
 
   function renderPresident(id, options = {}) {
-    const { scroll = false } = options;
+    const { scroll = false, forceScroll = false } = options;
     const president = presidents.find((p) => p.id === Number(id)) || presidents[0];
     if (!president) {
       return;
     }
 
-    const hasChanged = president.id !== activePresidentId;
+    const previousPresidentId = activePresidentId;
+    const hasChanged = president.id !== previousPresidentId;
     activePresidentId = president.id;
     renderPickerCurrent(president);
     symbolArt.textContent = president.symbol;
@@ -186,13 +187,14 @@
 
     renderLineage(president.id);
 
-    if (scroll && hasChanged) {
+    if (scroll && (hasChanged || forceScroll)) {
       scrollToImageTop();
     }
   }
 
   function applyEraFilter(options = {}) {
     const { scroll = false } = options;
+    const previousPresidentId = activePresidentId;
     filteredPresidents =
       selectedEra === "all" ? [...presidents] : presidents.filter((p) => p.era === selectedEra);
     if (!filteredPresidents.length) {
@@ -203,7 +205,8 @@
     }
     buildPickerOptions();
     renderEraCurrent();
-    renderPresident(activePresidentId, { scroll });
+    const changedByFilter = previousPresidentId !== activePresidentId;
+    renderPresident(activePresidentId, { scroll, forceScroll: changedByFilter });
     setPickerExpanded(false);
     setEraExpanded(false);
   }
