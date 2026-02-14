@@ -486,6 +486,7 @@ dd {
   line-height: 1.2;
   font-size: 0.85em;
   color: var(--muted);
+  -webkit-text-fill-color: var(--muted);
 }
 
 .note {
@@ -569,6 +570,8 @@ dd {
   width: 100%;
   border: 0;
   background: transparent;
+  color: var(--ink);
+  -webkit-text-fill-color: var(--ink);
   padding: 0;
   margin: 0;
   display: flex;
@@ -631,6 +634,8 @@ dd {
   border-radius: 10px;
   border: 1px solid #d9d0bc;
   background: #fff;
+  color: var(--ink);
+  -webkit-text-fill-color: var(--ink);
 }
 
 .lineage-item .index {
