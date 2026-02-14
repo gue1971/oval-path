@@ -262,6 +262,9 @@
     cardEl.hidden = !showNote;
     lineageViewEl.hidden = !showLineage;
     backToLineageButton.hidden = !showNote;
+    if (toggleAllErasButton) {
+      toggleAllErasButton.hidden = !showLineage;
+    }
   }
 
   function scrollToLineageTop() {

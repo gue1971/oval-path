@@ -17,8 +17,18 @@
       <section class="controls" aria-label="表示コントロール">
         <div class="controls-inner">
           <div class="controls-heading">
-            <h1 class="controls-title">アメリカ合衆国大統領一覧</h1>
+            <h1 class="controls-title">アメリカ合衆国大統領</h1>
             <button type="button" id="toggle-all-eras" class="era-toggle-all" aria-label="すべて開く" title="すべて開く">⊞</button>
+            <button
+              type="button"
+              class="back-button"
+              id="back-to-lineage"
+              aria-label="思想の系譜に戻る"
+              title="思想の系譜に戻る"
+              hidden
+            >
+              ↩
+            </button>
           </div>
         </div>
       </section>
@@ -65,18 +75,6 @@
           </div>
         </section>
       </article>
-
-      <button
-        type="button"
-        class="back-button"
-        id="back-to-lineage"
-        aria-label="思想の系譜に戻る"
-        title="思想の系譜に戻る"
-        hidden
-      >
-        ↩
-      </button>
-
       <section class="lineage" id="lineage-view" aria-label="思想の系譜">
         <div id="lineage-track" class="lineage-track"></div>
       </section>

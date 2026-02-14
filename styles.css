@@ -104,7 +104,8 @@ h1 {
   line-height: 1.2;
 }
 
-.era-toggle-all {
+.era-toggle-all,
+.back-button {
   appearance: none;
   -webkit-appearance: none;
   border: 1px solid var(--line);
@@ -356,31 +357,6 @@ h1 {
 
 .card {
   margin-top: 0;
-}
-
-.back-button {
-  appearance: none;
-  -webkit-appearance: none;
-  position: fixed;
-  right: 12px;
-  bottom: 18px;
-  z-index: 18;
-  width: 34px;
-  height: 34px;
-  border: 1px solid #d8cfbb;
-  border-radius: 999px;
-  background: #fffaf0;
-  color: var(--ink);
-  font-family: "Work Sans", sans-serif;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 1;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  place-items: center;
-  box-shadow: 0 3px 10px rgb(31 37 48 / 10%);
-  cursor: pointer;
 }
 
 .overview-card,
