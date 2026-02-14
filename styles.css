@@ -334,19 +334,31 @@ h1 {
 
 .card {
   margin-top: 0;
+  position: relative;
+  padding-bottom: 44px;
 }
 
 .back-button {
   appearance: none;
   -webkit-appearance: none;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: #fff;
+  position: absolute;
+  right: 10px;
+  bottom: 0;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #d8cfbb;
+  border-radius: 999px;
+  background: #fffaf0;
   color: var(--ink);
-  font: inherit;
+  font-family: "Work Sans", sans-serif;
+  font-size: 18px;
   font-weight: 700;
-  padding: 8px 12px;
-  margin: 0 0 8px;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 3px 10px rgb(31 37 48 / 10%);
   cursor: pointer;
 }
 

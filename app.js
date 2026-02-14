@@ -23,6 +23,7 @@
   const lineageTrack = document.getElementById("lineage-track");
   const cardEl = document.getElementById("president-card");
   const lineageViewEl = document.getElementById("lineage-view");
+  const historyStateLineage = { view: "lineage" };
 
   if (!presidents.length) {
     document.body.innerHTML = "<p>データが見つかりませんでした。</p>";
@@ -327,6 +328,25 @@
     lineageViewEl.hidden = !showLineage;
   }
 
+  function showLineageView({ scroll = true } = {}) {
+    setActiveView("lineage");
+    renderLineage(activePresidentId);
+    if (scroll) {
+      if (!scrollLineageToPresident(activePresidentId)) {
+        scrollToLineageTop();
+      }
+    }
+  }
+
+  function showNoteView(presidentId, { pushHistory = false } = {}) {
+    renderPresident(presidentId);
+    setActiveView("note");
+    scrollToImageTop();
+    if (pushHistory) {
+      window.history.pushState({ view: "note", presidentId: Number(presidentId) }, "");
+    }
+  }
+
   function scrollToLineageTop() {
     if (!lineageViewEl) {
       return;
@@ -423,6 +443,7 @@
   buildEraOptions();
   applyEraFilter();
   setActiveView("lineage");
+  window.history.replaceState(historyStateLineage, "");
 
   eraButton.addEventListener("click", () => {
     setEraExpanded(eraList.hidden);
@@ -456,17 +477,23 @@
       return;
     }
     const selectedId = Number(item.dataset.presidentId);
-    renderPresident(selectedId);
-    setActiveView("note");
-    scrollToImageTop();
+    showNoteView(selectedId, { pushHistory: true });
   });
 
   backToLineageButton.addEventListener("click", () => {
-    setActiveView("lineage");
-    renderLineage(activePresidentId);
-    if (!scrollLineageToPresident(activePresidentId)) {
-      scrollToLineageTop();
+    if (window.history.state?.view === "note") {
+      window.history.back();
+      return;
     }
+    showLineageView();
+  });
+
+  window.addEventListener("popstate", (event) => {
+    if (event.state?.view === "note") {
+      showNoteView(event.state.presidentId ?? activePresidentId);
+      return;
+    }
+    showLineageView();
   });
 
   document.addEventListener("click", (event) => {
