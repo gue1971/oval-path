@@ -245,20 +245,17 @@
 
   function buildSymbolModalHtml(president) {
     const paragraphs = [
-      `${president.symbolCaption}は、${president.jpName}政権の時代性を示す視覚キーワードです。`,
-      `この大統領の背景: ${president.origin}`,
-      `この大統領の歴史的な遺産: ${president.legacy}`
+      `このイラストのモチーフは「${president.symbolCaption}」です。${president.jpName}をひと目で思い出せるように選んでいます。`,
+      `時代区分は「${president.era}」、任期は「${president.term}」です。背景や遺産の詳しい説明は、別カードでゆっくり読めます。`
     ];
     return paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("");
   }
 
   function buildKeywordModalHtml(president, keyword) {
-    const allKeywords = president.keywords.join("・");
     const paragraphs = [
-      `「${keyword}」は、${president.jpName}（${president.term}）を理解するための中核キーワードです。`,
-      `時代背景（${president.era}）: ${president.origin}`,
-      `歴史的評価と影響: ${president.legacy}`,
-      `関連キーワード: ${allKeywords}`
+      `「${keyword}」は、${president.jpName}を理解するための入口になる言葉です。`,
+      `${president.era}の流れの中で、このキーワードが政策や評価の軸になりました。`,
+      `まずはこの言葉を手がかりにして、背景・遺産の本文を読むと全体像がつかみやすくなります。`
     ];
     return paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("");
   }
