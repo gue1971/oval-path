@@ -80,12 +80,17 @@ h1 {
   gap: 8px;
 }
 
-.era-filter {
+.era-picker {
+  position: relative;
+}
+
+.era-button {
   width: 100%;
   font-family: "Work Sans", sans-serif;
   font-size: 16px;
   line-height: 1.35;
   font-weight: 600;
+  text-align: left;
   color: var(--ink);
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -102,6 +107,45 @@ h1 {
     calc(100% - 12px) calc(50% - 2px);
   background-size: 6px 6px, 6px 6px;
   background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.era-list {
+  position: absolute;
+  z-index: 9;
+  left: 0;
+  right: 0;
+  margin: 6px 0 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 18px rgb(31 37 48 / 12%);
+}
+
+.era-option {
+  width: 100%;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.35;
+  color: inherit;
+  text-align: left;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: #fff;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.era-option:hover {
+  background: #fbf4e7;
+  border-color: #e3d7be;
+}
+
+.era-option.active {
+  background: #fff4e5;
+  border-color: #d8b18b;
 }
 
 .president-picker {

@@ -2,7 +2,10 @@
   const presidents = window.PRESIDENTS || [];
 
   const picker = document.getElementById("president-picker");
-  const eraFilter = document.getElementById("era-filter");
+  const eraPicker = document.getElementById("era-picker");
+  const eraButton = document.getElementById("era-button");
+  const eraCurrent = document.getElementById("era-current");
+  const eraList = document.getElementById("era-list");
   const pickerButton = document.getElementById("picker-button");
   const pickerCurrent = document.getElementById("picker-current");
   const pickerList = document.getElementById("picker-list");
@@ -24,6 +27,7 @@
 
   let filteredPresidents = [...presidents];
   let activePresidentId = presidents[0].id;
+  let selectedEra = "all";
 
   function escapeHtml(value) {
     return String(value)
@@ -63,9 +67,39 @@
 
   function buildEraOptions() {
     const eras = [...new Set(presidents.map((p) => p.era).filter(Boolean))];
-    eraFilter.innerHTML = `<option value="all">全時代</option>${eras
-      .map((era) => `<option value="${escapeHtml(era)}">${escapeHtml(era)}</option>`)
-      .join("")}`;
+    eraList.innerHTML = [
+      `<li role="option" aria-selected="false"><button type="button" class="era-option" data-era-value="all">全時代</button></li>`,
+      ...eras.map(
+        (era) =>
+          `<li role="option" aria-selected="false"><button type="button" class="era-option" data-era-value="${escapeHtml(
+            era
+          )}">${escapeHtml(era)}</button></li>`
+      )
+    ].join("");
+  }
+
+  function renderEraCurrent() {
+    const buttonLabel = selectedEra === "all" ? "全時代" : selectedEra;
+    eraCurrent.textContent = buttonLabel;
+    eraList.querySelectorAll(".era-option").forEach((optionEl) => {
+      const isActive = optionEl.dataset.eraValue === selectedEra;
+      optionEl.classList.toggle("active", isActive);
+      optionEl.parentElement?.setAttribute("aria-selected", String(isActive));
+    });
+  }
+
+  function syncScrollLock() {
+    const hasOpenList = !pickerList.hidden || !eraList.hidden;
+    document.body.style.overflowY = hasOpenList ? "hidden" : "";
+  }
+
+  function setEraExpanded(isOpen) {
+    eraList.hidden = !isOpen;
+    eraButton.setAttribute("aria-expanded", String(isOpen));
+    if (isOpen) {
+      setPickerExpanded(false);
+    }
+    syncScrollLock();
   }
 
   function buildPickerOptions() {
@@ -89,7 +123,10 @@
   function setPickerExpanded(isOpen) {
     pickerList.hidden = !isOpen;
     pickerButton.setAttribute("aria-expanded", String(isOpen));
-    document.body.style.overflowY = isOpen ? "hidden" : "";
+    if (isOpen) {
+      setEraExpanded(false);
+    }
+    syncScrollLock();
   }
 
   function renderLineage(activeId) {
@@ -135,7 +172,6 @@
   }
 
   function applyEraFilter() {
-    const selectedEra = eraFilter.value;
     filteredPresidents =
       selectedEra === "all" ? [...presidents] : presidents.filter((p) => p.era === selectedEra);
     if (!filteredPresidents.length) {
@@ -145,13 +181,27 @@
       activePresidentId = filteredPresidents[0].id;
     }
     buildPickerOptions();
+    renderEraCurrent();
     renderPresident(activePresidentId);
     setPickerExpanded(false);
+    setEraExpanded(false);
   }
 
   buildEraOptions();
-  eraFilter.value = "all";
   applyEraFilter();
+
+  eraButton.addEventListener("click", () => {
+    setEraExpanded(eraList.hidden);
+  });
+
+  eraList.addEventListener("click", (event) => {
+    const target = event.target.closest(".era-option");
+    if (!target) {
+      return;
+    }
+    selectedEra = target.dataset.eraValue || "all";
+    applyEraFilter();
+  });
 
   pickerButton.addEventListener("click", () => {
     setPickerExpanded(pickerList.hidden);
@@ -166,19 +216,19 @@
     setPickerExpanded(false);
   });
 
-  eraFilter.addEventListener("change", () => {
-    applyEraFilter();
-  });
-
   document.addEventListener("click", (event) => {
     if (!picker.contains(event.target)) {
       setPickerExpanded(false);
+    }
+    if (!eraPicker.contains(event.target)) {
+      setEraExpanded(false);
     }
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       setPickerExpanded(false);
+      setEraExpanded(false);
     }
   });
 })();

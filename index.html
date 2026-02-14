@@ -16,7 +16,19 @@
     <main class="app-shell">
       <section class="controls" aria-label="表示コントロール">
         <div class="controls-inner">
-          <select id="era-filter" class="era-filter" aria-label="時代で絞り込み"></select>
+          <div class="era-picker" id="era-picker">
+            <button
+              type="button"
+              id="era-button"
+              class="era-button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-label="時代で絞り込み"
+            >
+              <span id="era-current"></span>
+            </button>
+            <ul id="era-list" class="era-list" role="listbox" hidden></ul>
+          </div>
           <div class="president-picker" id="president-picker">
             <button
               type="button"
