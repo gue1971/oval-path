@@ -474,6 +474,7 @@ dd {
 
 .name-ja {
   line-height: 1.2;
+  font-weight: 700;
 }
 
 .name-en {
@@ -584,7 +585,7 @@ dd {
   text-align: left;
   cursor: pointer;
   display: grid;
-  grid-template-columns: 36px 1fr 48px;
+  grid-template-columns: 36px 1fr 76px;
   align-items: start;
   gap: 9px;
   font-size: 0.9rem;
@@ -642,8 +643,8 @@ dd {
 }
 
 .lineage-thumb {
-  width: 48px;
-  aspect-ratio: 1 / 1;
+  width: 76px;
+  height: 76px;
   border-radius: 8px;
   object-fit: cover;
   border: 1px solid #d8cfbb;
