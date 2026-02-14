@@ -344,9 +344,9 @@ dd {
 }
 
 .note {
-  border-top: 2px solid #b7aa8c;
+  border-top: 1px solid var(--line);
   background: var(--card);
-  padding-top: 12px;
+  padding-top: 16px;
 }
 
 .note-grid {
