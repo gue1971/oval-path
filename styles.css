@@ -94,7 +94,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  min-height: 32px;
+  min-height: 38px;
 }
 
 .controls-title {
@@ -427,6 +427,7 @@ h1 {
   margin: 0;
   font-size: 1.02rem;
   color: var(--ink);
+  font-weight: 700;
   text-align: center;
   width: 100%;
 }
