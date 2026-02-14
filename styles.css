@@ -236,11 +236,19 @@ h1 {
 
 .card {
   margin-top: 0;
+}
+
+.overview-card,
+.note-card {
   border: 1px solid var(--line);
   border-radius: 18px;
   overflow: hidden;
   background: var(--card);
   box-shadow: 0 10px 30px rgb(55 49 37 / 14%);
+}
+
+.note-card {
+  margin-top: 10px;
 }
 
 .image-frame {
