@@ -31,7 +31,7 @@
   let activePresidentId = presidents[0].id;
   let selectedEra = "all";
   const eraLabelMap = {
-    all: "全時代（1789-1945）",
+    all: "全時代",
     建国期: "建国期（1789-1841）",
     拡張と分断前夜: "拡張と分断前夜（1841-1861）",
     南北戦争と再建: "南北戦争と再建（1861-1881）",
