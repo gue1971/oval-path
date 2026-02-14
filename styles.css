@@ -90,6 +90,24 @@ h1 {
   gap: 8px;
 }
 
+.controls-heading {
+  display: grid;
+  gap: 2px;
+}
+
+.controls-title {
+  margin: 0;
+  font-size: clamp(1.05rem, 4.2vw, 1.35rem);
+  line-height: 1.2;
+}
+
+.controls-subtitle {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .view-tabs {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

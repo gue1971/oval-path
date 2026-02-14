@@ -16,6 +16,10 @@
     <main class="app-shell">
       <section class="controls" aria-label="表示コントロール">
         <div class="controls-inner">
+          <div class="controls-heading">
+            <h1 class="controls-title">アメリカ大統領オーバルパス</h1>
+            <p class="controls-subtitle">時代と大統領を選んで、背景・遺産・思想の流れを確認</p>
+          </div>
           <div class="era-picker" id="era-picker">
             <button
               type="button"
@@ -46,9 +50,9 @@
       </section>
 
       <section class="view-tabs" aria-label="表示切替">
-        <button type="button" id="tab-note" class="view-tab active">ノート表示</button>
-        <button type="button" id="tab-lineage" class="view-tab">思想の系譜マップ</button>
-        <button type="button" id="tab-gallery" class="view-tab">イラスト一覧</button>
+        <button type="button" id="tab-note" class="view-tab active">ノート</button>
+        <button type="button" id="tab-lineage" class="view-tab">思想の系譜</button>
+        <button type="button" id="tab-gallery" class="view-tab">イラスト</button>
       </section>
 
       <article class="card" id="president-card" aria-live="polite">
@@ -94,14 +98,14 @@
         </section>
       </article>
 
-      <section class="lineage" id="lineage-view" aria-label="思想の系譜マップ" hidden>
-        <h2>思想の系譜マップ</h2>
+      <section class="lineage" id="lineage-view" aria-label="思想の系譜" hidden>
+        <h2>思想の系譜</h2>
         <p class="lineage-help">対立軸: <strong>時代ごとに基準が変化（項目ごとに表示）</strong></p>
         <div id="lineage-track" class="lineage-track"></div>
       </section>
 
-      <section class="gallery" id="gallery-view" aria-label="大統領イラスト一覧" hidden>
-        <h2>大統領イラスト一覧</h2>
+      <section class="gallery" id="gallery-view" aria-label="イラスト" hidden>
+        <h2>イラスト</h2>
         <div id="gallery-grid" class="gallery-grid"></div>
       </section>
     </main>
