@@ -38,7 +38,7 @@
           <section class="overview-card">
             <div class="image-frame">
               <div class="symbol-art" id="symbol-art"></div>
-              <p class="symbol-caption" id="symbol-caption"></p>
+              <button type="button" class="symbol-caption" id="symbol-caption"></button>
             </div>
 
             <section class="quick-insight">
@@ -82,6 +82,16 @@
       <section class="lineage" id="lineage-view" aria-label="思想の系譜">
         <div id="lineage-track" class="lineage-track"></div>
       </section>
+      <div class="info-modal" id="info-modal" hidden>
+        <div class="info-modal-backdrop" id="info-modal-backdrop"></div>
+        <article class="info-modal-card" role="dialog" aria-modal="true" aria-labelledby="info-modal-title">
+          <header class="info-modal-header">
+            <h2 id="info-modal-title"></h2>
+            <button type="button" class="info-modal-close" id="info-modal-close" aria-label="閉じる">✕</button>
+          </header>
+          <div class="info-modal-body" id="info-modal-body"></div>
+        </article>
+      </div>
 
     </main>
 

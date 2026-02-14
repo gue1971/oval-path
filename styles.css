@@ -419,9 +419,18 @@ h1 {
 }
 
 .symbol-caption {
+  appearance: none;
+  -webkit-appearance: none;
   margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
   font-size: 0.88rem;
   color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
 }
 
 .quick-insight,
@@ -466,9 +475,25 @@ dd {
 
 .keyword-list {
   margin: 0;
-  padding-left: 1.1em;
+  padding-left: 0;
+  list-style: none;
   display: grid;
   gap: 2px;
+}
+
+.keyword-trigger {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
 }
 
 .name-stack {
@@ -528,6 +553,75 @@ dd {
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 14px;
+}
+
+.info-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.info-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(18 24 32 / 45%);
+}
+
+.info-modal-card {
+  position: relative;
+  width: min(640px, 100%);
+  max-height: min(82vh, 760px);
+  background: #fff;
+  border: 1px solid #d8cfbb;
+  border-radius: 14px;
+  box-shadow: 0 18px 40px rgb(0 0 0 / 20%);
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.info-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e8deca;
+  background: #fbf7ee;
+}
+
+.info-modal-header h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.info-modal-close {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid #d7ccb3;
+  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.info-modal-body {
+  overflow: auto;
+  padding: 14px;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.info-modal-body p {
+  margin: 0 0 0.8em;
+}
+
+.info-modal-body p:last-child {
+  margin-bottom: 0;
 }
 
 .lineage {

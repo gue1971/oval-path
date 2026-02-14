@@ -11,6 +11,11 @@
   const termEl = document.getElementById("pi-term");
   const partyEl = document.getElementById("pi-party");
   const keywordsEl = document.getElementById("pi-keywords");
+  const infoModalEl = document.getElementById("info-modal");
+  const infoModalBackdropEl = document.getElementById("info-modal-backdrop");
+  const infoModalTitleEl = document.getElementById("info-modal-title");
+  const infoModalBodyEl = document.getElementById("info-modal-body");
+  const infoModalCloseEl = document.getElementById("info-modal-close");
   const originEl = document.getElementById("note-origin");
   const legacyEl = document.getElementById("note-legacy");
   const lineageTrack = document.getElementById("lineage-track");
@@ -234,6 +239,48 @@
     updateToggleAllButtonLabel();
   }
 
+  function getActivePresident() {
+    return presidents.find((p) => p.id === activePresidentId) || presidents[0];
+  }
+
+  function buildSymbolModalHtml(president) {
+    const paragraphs = [
+      `${president.symbolCaption}は、${president.jpName}政権の時代性を示す視覚キーワードです。`,
+      `この大統領の背景: ${president.origin}`,
+      `この大統領の歴史的な遺産: ${president.legacy}`
+    ];
+    return paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("");
+  }
+
+  function buildKeywordModalHtml(president, keyword) {
+    const allKeywords = president.keywords.join("・");
+    const paragraphs = [
+      `「${keyword}」は、${president.jpName}（${president.term}）を理解するための中核キーワードです。`,
+      `時代背景（${president.era}）: ${president.origin}`,
+      `歴史的評価と影響: ${president.legacy}`,
+      `関連キーワード: ${allKeywords}`
+    ];
+    return paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("");
+  }
+
+  function openInfoModal(title, htmlContent) {
+    if (!infoModalEl || !infoModalTitleEl || !infoModalBodyEl) {
+      return;
+    }
+    infoModalTitleEl.textContent = title;
+    infoModalBodyEl.innerHTML = htmlContent;
+    infoModalEl.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeInfoModal() {
+    if (!infoModalEl) {
+      return;
+    }
+    infoModalEl.hidden = true;
+    document.body.style.overflow = "";
+  }
+
   function areAllErasExpanded() {
     return eraNames.every((era) => expandedEras.has(era));
   }
@@ -318,7 +365,10 @@
     termEl.innerHTML = renderTerm(president.term);
     partyEl.textContent = president.party;
     keywordsEl.innerHTML = `<ul class="keyword-list">${president.keywords
-      .map((keyword) => `<li>${escapeHtml(keyword)}</li>`)
+      .map(
+        (keyword, index) =>
+          `<li><button type="button" class="keyword-trigger" data-keyword-index="${index}">${escapeHtml(keyword)}</button></li>`
+      )
       .join("")}</ul>`;
     originEl.textContent = president.origin;
     legacyEl.textContent = president.legacy;
@@ -410,6 +460,30 @@
     scrollToImageTop();
   });
 
+  symbolCaption.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const president = getActivePresident();
+    openInfoModal(`${president.jpName} の象徴`, buildSymbolModalHtml(president));
+  });
+
+  keywordsEl.addEventListener("click", (event) => {
+    const trigger = event.target.closest(".keyword-trigger");
+    if (!trigger) {
+      return;
+    }
+    event.stopPropagation();
+    const president = getActivePresident();
+    const index = Number(trigger.dataset.keywordIndex);
+    const keyword = president.keywords[index];
+    if (!keyword) {
+      return;
+    }
+    openInfoModal(`${president.jpName} のキーワード`, buildKeywordModalHtml(president, keyword));
+  });
+
+  infoModalCloseEl?.addEventListener("click", closeInfoModal);
+  infoModalBackdropEl?.addEventListener("click", closeInfoModal);
+
   cardEl.addEventListener(
     "touchstart",
     (event) => {
@@ -443,10 +517,17 @@
   );
 
   window.addEventListener("popstate", (event) => {
+    closeInfoModal();
     if (event.state?.view === "note") {
       showNoteView(event.state.presidentId ?? activePresidentId);
       return;
     }
     showLineageView();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeInfoModal();
+    }
   });
 })();
