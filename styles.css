@@ -3,7 +3,7 @@
   --bg-1: #ded7ca;
   --ink: #1f2530;
   --muted: #556173;
-  --card: #f9f7f1;
+  --card: #fffdf9;
   --line: #c7bfae;
   --accent: #b14f2f;
   --accent-2: #2e5f88;
@@ -430,7 +430,7 @@ h1 {
 }
 
 .quick-insight {
-  background: linear-gradient(180deg, rgb(227 214 188 / 95%), rgb(241 233 214 / 70%));
+  background: linear-gradient(180deg, #fffdf9, #fbf8f1);
 }
 
 .lineage h2,
@@ -550,7 +550,7 @@ dd {
 .lineage-era-group {
   border: 1px solid #d8cfbb;
   border-radius: 12px;
-  background: #fffaf0;
+  background: #fffefb;
   padding: 8px;
 }
 
