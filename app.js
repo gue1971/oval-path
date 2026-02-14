@@ -274,8 +274,7 @@
           .map((p) => {
             const activeClass = p.id === activeId ? " style=\"border-color:#b14f2f;background:#fff4e5\"" : "";
             return `<div class="lineage-item" data-president-id="${p.id}"${activeClass}>
-              <span class="party-dot party-${getPartyKey(p.party)}" aria-hidden="true"></span>
-              <span class="index">#${p.id}</span>
+              <span class="index party-${getPartyKey(p.party)}">#${p.id}</span>
               ${renderNameStack(p.jpName, p.name)}
               <span class="axis">${escapeHtml(renderAxisLabel(p))}</span>
             </div>`;
@@ -295,8 +294,9 @@
       .map((p) => {
         const slug = slugifyName(p.name);
         const imagePath = `./assets/presidents/${slug}.png`;
+        const partyKey = getPartyKey(p.party);
         const activeClass = p.id === activePresidentId ? " active" : "";
-        return `<button type="button" class="gallery-item${activeClass}" data-president-id="${p.id}">
+        return `<button type="button" class="gallery-item party-${partyKey}${activeClass}" data-president-id="${p.id}">
           <img src="${escapeHtml(imagePath)}" alt="${escapeHtml(p.jpName)}" loading="lazy" decoding="async" />
           <span class="gallery-name">${escapeHtml(p.jpName)}</span>
           <span class="gallery-name-en">${escapeHtml(p.name)}</span>

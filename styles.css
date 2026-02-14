@@ -290,27 +290,27 @@ h1 {
   white-space: nowrap;
 }
 
-.party-fed {
+.party-chip.party-fed {
   background: var(--party-fed);
 }
 
-.party-demrep {
+.party-chip.party-demrep {
   background: var(--party-demrep);
 }
 
-.party-dem {
+.party-chip.party-dem {
   background: var(--party-dem);
 }
 
-.party-whig {
+.party-chip.party-whig {
   background: var(--party-whig);
 }
 
-.party-gop {
+.party-chip.party-gop {
   background: var(--party-gop);
 }
 
-.party-other {
+.party-chip.party-other {
   background: var(--party-other);
 }
 
@@ -532,7 +532,7 @@ dd {
 
 .lineage-item {
   display: grid;
-  grid-template-columns: 10px 36px 1fr auto;
+  grid-template-columns: 36px 1fr auto;
   align-items: center;
   gap: 9px;
   font-size: 0.9rem;
@@ -543,15 +543,31 @@ dd {
 }
 
 .lineage-item .index {
-  color: var(--accent);
   font-weight: 700;
 }
 
-.party-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  border: 1px solid rgb(0 0 0 / 12%);
+.lineage-item .index.party-fed {
+  color: var(--party-fed);
+}
+
+.lineage-item .index.party-demrep {
+  color: var(--party-demrep);
+}
+
+.lineage-item .index.party-dem {
+  color: var(--party-dem);
+}
+
+.lineage-item .index.party-whig {
+  color: var(--party-whig);
+}
+
+.lineage-item .index.party-gop {
+  color: var(--party-gop);
+}
+
+.lineage-item .index.party-other {
+  color: var(--party-other);
 }
 
 .lineage-item .axis {
@@ -575,8 +591,31 @@ dd {
   cursor: pointer;
 }
 
+.gallery-item.party-fed {
+  border-color: color-mix(in srgb, var(--party-fed) 58%, white);
+}
+
+.gallery-item.party-demrep {
+  border-color: color-mix(in srgb, var(--party-demrep) 58%, white);
+}
+
+.gallery-item.party-dem {
+  border-color: color-mix(in srgb, var(--party-dem) 58%, white);
+}
+
+.gallery-item.party-whig {
+  border-color: color-mix(in srgb, var(--party-whig) 58%, white);
+}
+
+.gallery-item.party-gop {
+  border-color: color-mix(in srgb, var(--party-gop) 58%, white);
+}
+
+.gallery-item.party-other {
+  border-color: color-mix(in srgb, var(--party-other) 58%, white);
+}
+
 .gallery-item.active {
-  border-color: #d8b18b;
   background: #fff4e5;
 }
 
