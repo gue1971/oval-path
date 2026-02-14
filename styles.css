@@ -79,6 +79,12 @@ select {
   border-radius: 12px;
   background: #fff;
   padding: 11px;
+  white-space: pre-line;
+  line-height: 1.4;
+}
+
+option {
+  white-space: pre-line;
 }
 
 .card {
@@ -152,6 +158,22 @@ dt {
 dd {
   margin: 0;
   line-height: 1.45;
+}
+
+.name-stack {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.name-ja {
+  line-height: 1.2;
+}
+
+.name-en {
+  line-height: 1.2;
+  font-size: 0.85em;
+  color: var(--muted);
 }
 
 .note {

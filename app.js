@@ -17,13 +17,21 @@
     return;
   }
 
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  function renderNameStack(jpName, enName) {
+    return `<span class="name-stack"><span class="name-ja">${escapeHtml(jpName)}</span><span class="name-en">${escapeHtml(enName)}</span></span>`;
+  }
+
   function buildSelectOptions() {
-    select.innerHTML = presidents
-      .map(
-        (p) =>
-          `<option value="${p.id}">${p.id}. ${p.jpName} (${p.name})</option>`
-      )
-      .join("");
+    select.innerHTML = presidents.map((p) => `<option value="${p.id}">${p.id}. ${p.jpName}\n${p.name}</option>`).join("");
   }
 
   function renderLineage(activeId) {
@@ -32,7 +40,7 @@
         const activeClass = p.id === activeId ? " style=\"border-color:#b14f2f;background:#fff4e5\"" : "";
         return `<div class="lineage-item"${activeClass}>
           <span class="index">#${p.id}</span>
-          <span>${p.jpName}</span>
+          ${renderNameStack(p.jpName, p.name)}
           <span class="axis">${p.axis}</span>
         </div>`;
       })
@@ -44,7 +52,7 @@
 
     symbolArt.textContent = president.symbol;
     symbolCaption.textContent = president.symbolCaption;
-    nameEl.textContent = `${president.jpName} / ${president.name}`;
+    nameEl.innerHTML = renderNameStack(president.jpName, president.name);
     termEl.textContent = president.term;
     partyEl.textContent = president.party;
     keywordsEl.textContent = president.keywords.join(" / ");
