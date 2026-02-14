@@ -34,7 +34,7 @@
   }
 
   function renderPickerCurrent(president) {
-    pickerCurrent.innerHTML = `<span class="name-stack"><span class="name-ja">${president.id}. ${escapeHtml(president.jpName)}</span><span class="name-en">${escapeHtml(president.name)}</span></span>`;
+    pickerCurrent.innerHTML = `<span class="picker-name-row"><span class="picker-index">${president.id}.</span><span class="name-stack"><span class="name-ja">${escapeHtml(president.jpName)}</span><span class="name-en">${escapeHtml(president.name)}</span></span></span>`;
   }
 
   function buildPickerOptions() {
@@ -42,9 +42,12 @@
       .map(
         (p) => `<li role="option" aria-selected="false">
           <button type="button" class="picker-option" data-president-id="${p.id}">
-            <span class="name-stack">
-              <span class="name-ja">${p.id}. ${escapeHtml(p.jpName)}</span>
-              <span class="name-en">${escapeHtml(p.name)}</span>
+            <span class="picker-name-row">
+              <span class="picker-index">${p.id}.</span>
+              <span class="name-stack">
+                <span class="name-ja">${escapeHtml(p.jpName)}</span>
+                <span class="name-en">${escapeHtml(p.name)}</span>
+              </span>
             </span>
           </button>
         </li>`

@@ -119,6 +119,18 @@ h1 {
   border-color: #d8b18b;
 }
 
+.picker-name-row {
+  display: grid;
+  grid-template-columns: 2.2em 1fr;
+  align-items: start;
+  column-gap: 4px;
+}
+
+.picker-index {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
 .card {
   margin-top: 14px;
   border: 1px solid var(--line);
