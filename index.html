@@ -15,18 +15,21 @@
   <body>
     <main class="app-shell">
       <section class="controls" aria-label="表示コントロール">
-        <div class="president-picker" id="president-picker">
-          <button
-            type="button"
-            id="picker-button"
-            class="picker-button"
-            aria-haspopup="listbox"
-            aria-expanded="false"
-            aria-label="大統領を選ぶ"
-          >
-            <span id="picker-current"></span>
-          </button>
-          <ul id="picker-list" class="picker-list" role="listbox" hidden></ul>
+        <div class="controls-inner">
+          <select id="era-filter" class="era-filter" aria-label="時代で絞り込み"></select>
+          <div class="president-picker" id="president-picker">
+            <button
+              type="button"
+              id="picker-button"
+              class="picker-button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-label="大統領を選ぶ"
+            >
+              <span id="picker-current"></span>
+            </button>
+            <ul id="picker-list" class="picker-list" role="listbox" hidden></ul>
+          </div>
         </div>
       </section>
 

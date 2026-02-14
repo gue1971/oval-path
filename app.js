@@ -2,6 +2,7 @@
   const presidents = window.PRESIDENTS || [];
 
   const picker = document.getElementById("president-picker");
+  const eraFilter = document.getElementById("era-filter");
   const pickerButton = document.getElementById("picker-button");
   const pickerCurrent = document.getElementById("picker-current");
   const pickerList = document.getElementById("picker-list");
@@ -20,6 +21,9 @@
     document.body.innerHTML = "<p>データが見つかりませんでした。</p>";
     return;
   }
+
+  let filteredPresidents = [...presidents];
+  let activePresidentId = presidents[0].id;
 
   function escapeHtml(value) {
     return String(value)
@@ -57,8 +61,15 @@
     pickerCurrent.innerHTML = `<span class="picker-name-row"><span class="picker-index">${president.id}.</span><span class="name-stack"><span class="name-ja">${escapeHtml(president.jpName)}</span><span class="name-en">${escapeHtml(president.name)}</span></span></span>`;
   }
 
+  function buildEraOptions() {
+    const eras = [...new Set(presidents.map((p) => p.era).filter(Boolean))];
+    eraFilter.innerHTML = `<option value="all">全時代</option>${eras
+      .map((era) => `<option value="${escapeHtml(era)}">${escapeHtml(era)}</option>`)
+      .join("")}`;
+  }
+
   function buildPickerOptions() {
-    pickerList.innerHTML = presidents
+    pickerList.innerHTML = filteredPresidents
       .map(
         (p) => `<li role="option" aria-selected="false">
           <button type="button" class="picker-option" data-president-id="${p.id}">
@@ -82,7 +93,7 @@
   }
 
   function renderLineage(activeId) {
-    lineageTrack.innerHTML = presidents
+    lineageTrack.innerHTML = filteredPresidents
       .map((p) => {
         const activeClass = p.id === activeId ? " style=\"border-color:#b14f2f;background:#fff4e5\"" : "";
         return `<div class="lineage-item"${activeClass}>
@@ -96,7 +107,11 @@
 
   function renderPresident(id) {
     const president = presidents.find((p) => p.id === Number(id)) || presidents[0];
+    if (!president) {
+      return;
+    }
 
+    activePresidentId = president.id;
     renderPickerCurrent(president);
     symbolArt.textContent = president.symbol;
     symbolCaption.textContent = president.symbolCaption;
@@ -119,8 +134,24 @@
     renderLineage(president.id);
   }
 
-  buildPickerOptions();
-  renderPresident(presidents[0].id);
+  function applyEraFilter() {
+    const selectedEra = eraFilter.value;
+    filteredPresidents =
+      selectedEra === "all" ? [...presidents] : presidents.filter((p) => p.era === selectedEra);
+    if (!filteredPresidents.length) {
+      filteredPresidents = [...presidents];
+    }
+    if (!filteredPresidents.some((p) => p.id === activePresidentId)) {
+      activePresidentId = filteredPresidents[0].id;
+    }
+    buildPickerOptions();
+    renderPresident(activePresidentId);
+    setPickerExpanded(false);
+  }
+
+  buildEraOptions();
+  eraFilter.value = "all";
+  applyEraFilter();
 
   pickerButton.addEventListener("click", () => {
     setPickerExpanded(pickerList.hidden);
@@ -131,8 +162,12 @@
     if (!target) {
       return;
     }
-    renderPresident(target.dataset.presidentId);
+    renderPresident(Number(target.dataset.presidentId));
     setPickerExpanded(false);
+  });
+
+  eraFilter.addEventListener("change", () => {
+    applyEraFilter();
   });
 
   document.addEventListener("click", (event) => {
