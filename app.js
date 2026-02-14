@@ -251,13 +251,75 @@
     return paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("");
   }
 
+  function splitSentences(text) {
+    return String(text || "")
+      .replaceAll(/\s+/g, " ")
+      .match(/[^。！？]+[。！？]?/g)
+      ?.map((s) => s.trim())
+      .filter((s) => s.length >= 14) || [];
+  }
+
+  function keywordTokens(keyword) {
+    const raw = String(keyword || "").trim();
+    const parts = raw
+      .split(/[・\s/／,，]/)
+      .map((t) => t.trim())
+      .filter((t) => t.length >= 2);
+    return [raw, ...parts].filter(Boolean);
+  }
+
+  function scoreSentence(sentence, tokens) {
+    let score = 0;
+    for (const token of tokens) {
+      if (sentence.includes(token)) {
+        score += token.length >= 4 ? 6 : 4;
+      }
+    }
+    if (/法|戦争|外交|選挙|改革|危機|経済|統治|再建|連邦|州|安全保障|公民権/.test(sentence)) {
+      score += 2;
+    }
+    return score;
+  }
+
+  function selectKeywordSentences(president, keyword, maxCount = 2) {
+    const tokens = keywordTokens(keyword);
+    const pool = [...splitSentences(president.origin), ...splitSentences(president.legacy)];
+    const ranked = pool
+      .map((sentence) => ({ sentence, score: scoreSentence(sentence, tokens) }))
+      .sort((a, b) => b.score - a.score);
+
+    const selected = [];
+    for (const item of ranked) {
+      if (!item.sentence || selected.includes(item.sentence)) {
+        continue;
+      }
+      if (item.score <= 0 && selected.length > 0) {
+        continue;
+      }
+      selected.push(item.sentence);
+      if (selected.length >= maxCount) {
+        break;
+      }
+    }
+
+    if (selected.length < maxCount) {
+      for (const sentence of pool) {
+        if (!selected.includes(sentence)) {
+          selected.push(sentence);
+          if (selected.length >= maxCount) {
+            break;
+          }
+        }
+      }
+    }
+    return selected.slice(0, maxCount);
+  }
+
   function buildKeywordModalHtml(president, keyword) {
-    const paragraphs = [
-      `「${keyword}」は、${president.jpName}を理解するための入口になる言葉です。`,
-      `${president.era}の流れの中で、このキーワードが政策や評価の軸になりました。`,
-      `まずはこの言葉を手がかりにして、背景・遺産の本文を読むと全体像がつかみやすくなります。`
-    ];
-    return paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("");
+    const lines = selectKeywordSentences(president, keyword, 2);
+    const heading = `「${keyword}」について`;
+    const paragraphs = [`${president.jpName}（${president.term}）`, ...lines];
+    return `<p>${escapeHtml(heading)}</p>${paragraphs.map((text) => `<p>${escapeHtml(text)}</p>`).join("")}`;
   }
 
   function openInfoModal(title, htmlContent) {
