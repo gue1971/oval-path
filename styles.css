@@ -659,30 +659,8 @@ dd {
 .lineage-item .index {
   font-weight: 700;
   padding-top: 2px;
-}
-
-.lineage-item .index.party-fed {
-  color: var(--party-fed);
-}
-
-.lineage-item .index.party-demrep {
-  color: var(--party-demrep);
-}
-
-.lineage-item .index.party-dem {
-  color: var(--party-dem);
-}
-
-.lineage-item .index.party-whig {
-  color: var(--party-whig);
-}
-
-.lineage-item .index.party-gop {
-  color: var(--party-gop);
-}
-
-.lineage-item .index.party-other {
-  color: var(--party-other);
+  color: var(--ink);
+  -webkit-text-fill-color: var(--ink);
 }
 
 .lineage-main {
