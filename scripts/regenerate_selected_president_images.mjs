@@ -42,6 +42,13 @@ function slugifyName(name) {
 }
 
 function buildPrompt(presidentName) {
+  const forcedItemByName = {
+    "John Adams": "a balance scale",
+    "Thomas Jefferson": "a rolled Louisiana Purchase map",
+    "James Madison": "a bound U.S. Constitution booklet",
+    "John Quincy Adams": "a brass telescope"
+  };
+  const forcedItem = forcedItemByName[presidentName] || null;
   return [
     `Create a 1200x1200px square pop manga-style illustration of ${presidentName} as a super-deformed two-head-tall character.`,
     "",
@@ -61,6 +68,9 @@ function buildPrompt(presidentName) {
     "- Distinct facial expression reflecting personality",
     "- Clothing accurate to era but simplified",
     "- Include exactly ONE symbolic object strongly associated with this president",
+    ...(forcedItem
+      ? [`- The single symbolic object MUST be ${forcedItem} (no substitutions)`]
+      : []),
     "",
     "Background:",
     "- Era-appropriate setting",
