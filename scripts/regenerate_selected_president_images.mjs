@@ -46,9 +46,18 @@ function buildPrompt(presidentName) {
     "John Adams": "a balance scale",
     "Thomas Jefferson": "a rolled Louisiana Purchase map",
     "James Madison": "a bound U.S. Constitution booklet",
-    "John Quincy Adams": "a brass telescope"
+    "John Quincy Adams": "a brass telescope",
+    "Donald Trump": "a bold red necktie as the single symbolic emphasis"
   };
   const forcedItem = forcedItemByName[presidentName] || null;
+  const extraConstraintsByName = {
+    "Donald Trump": [
+      "- No social media logos/icons, especially no Twitter/X bird or symbols",
+      "- No background people, no crowd, no bystanders",
+      "- No placards, banners, blank papers, or signboards"
+    ]
+  };
+  const extraConstraints = extraConstraintsByName[presidentName] || [];
   return [
     `Create a 1200x1200px square pop manga-style illustration of ${presidentName} as a super-deformed two-head-tall character.`,
     "",
@@ -84,6 +93,7 @@ function buildPrompt(presidentName) {
     "- Do NOT draw any decorative outer frame, border, vignette, or panel edge",
     "- No text, no logo, no watermark, no signature",
     "- Single character only, full body visible",
+    ...extraConstraints,
     "",
     "Ensure visual variation from previous presidents while maintaining strict stylistic consistency."
   ].join("\n");
