@@ -88,6 +88,34 @@
     return `<span class="name-stack"><span class="name-ja">${escapeHtml(jpName)}</span><span class="name-en">${escapeHtml(enName)}</span></span>`;
   }
 
+  function getPartyKey(partyName) {
+    const name = String(partyName || "");
+    if (name.includes("民主共和党")) return "demrep";
+    if (name.includes("ホイッグ党")) return "whig";
+    if (name.includes("民主党")) return "dem";
+    if (name.includes("共和党")) return "gop";
+    if (name.includes("連邦党") || name.includes("連邦派")) return "fed";
+    return "other";
+  }
+
+  function getPartyLabel(partyName) {
+    const key = getPartyKey(partyName);
+    const labelMap = {
+      fed: "連邦党系",
+      demrep: "民主共和",
+      dem: "民主党",
+      whig: "ホイッグ",
+      gop: "共和党",
+      other: "無所属系"
+    };
+    return { key, label: labelMap[key] || "その他" };
+  }
+
+  function renderPartyChip(partyName) {
+    const party = getPartyLabel(partyName);
+    return `<span class="party-chip party-${party.key}">${escapeHtml(party.label)}</span>`;
+  }
+
   function formatPresidencyLabel(president) {
     const numbers =
       Array.isArray(president.presidencyNumbers) && president.presidencyNumbers.length
@@ -108,7 +136,9 @@
   }
 
   function renderPickerCurrent(president) {
-    pickerCurrent.innerHTML = `<span class="picker-name-row"><span class="picker-index">${president.id}.</span><span class="name-stack"><span class="name-ja">${escapeHtml(president.jpName)}</span><span class="name-en">${escapeHtml(president.name)}</span></span></span>`;
+    pickerCurrent.innerHTML = `<span class="picker-row-with-party"><span class="picker-name-row"><span class="picker-index">${president.id}.</span><span class="name-stack"><span class="name-ja">${escapeHtml(president.jpName)}</span><span class="name-en">${escapeHtml(president.name)}</span></span></span>${renderPartyChip(
+      president.party
+    )}</span>`;
   }
 
   function buildEraOptions() {
@@ -162,12 +192,15 @@
       .map(
         (p) => `<li role="option" aria-selected="false">
           <button type="button" class="picker-option" data-president-id="${p.id}">
-            <span class="picker-name-row">
-              <span class="picker-index">${p.id}.</span>
-              <span class="name-stack">
-                <span class="name-ja">${escapeHtml(p.jpName)}</span>
-                <span class="name-en">${escapeHtml(p.name)}</span>
+            <span class="picker-row-with-party">
+              <span class="picker-name-row">
+                <span class="picker-index">${p.id}.</span>
+                <span class="name-stack">
+                  <span class="name-ja">${escapeHtml(p.jpName)}</span>
+                  <span class="name-en">${escapeHtml(p.name)}</span>
+                </span>
               </span>
+              ${renderPartyChip(p.party)}
             </span>
           </button>
         </li>`
@@ -241,6 +274,7 @@
           .map((p) => {
             const activeClass = p.id === activeId ? " style=\"border-color:#b14f2f;background:#fff4e5\"" : "";
             return `<div class="lineage-item" data-president-id="${p.id}"${activeClass}>
+              <span class="party-dot party-${getPartyKey(p.party)}" aria-hidden="true"></span>
               <span class="index">#${p.id}</span>
               ${renderNameStack(p.jpName, p.name)}
               <span class="axis">${escapeHtml(renderAxisLabel(p))}</span>

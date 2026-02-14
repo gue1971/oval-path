@@ -7,6 +7,12 @@
   --line: #c7bfae;
   --accent: #b14f2f;
   --accent-2: #2e5f88;
+  --party-fed: #c97a1a;
+  --party-demrep: #2f8a44;
+  --party-dem: #2a66c8;
+  --party-whig: #b8921a;
+  --party-gop: #b92d2d;
+  --party-other: #7b7b7b;
 }
 
 * {
@@ -261,9 +267,51 @@ h1 {
   column-gap: 4px;
 }
 
+.picker-row-with-party {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 8px;
+}
+
 .picker-index {
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+}
+
+.party-chip {
+  display: inline-block;
+  font-size: 0.73rem;
+  font-weight: 700;
+  color: #fff;
+  padding: 3px 7px;
+  border-radius: 999px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.party-fed {
+  background: var(--party-fed);
+}
+
+.party-demrep {
+  background: var(--party-demrep);
+}
+
+.party-dem {
+  background: var(--party-dem);
+}
+
+.party-whig {
+  background: var(--party-whig);
+}
+
+.party-gop {
+  background: var(--party-gop);
+}
+
+.party-other {
+  background: var(--party-other);
 }
 
 .card {
@@ -484,7 +532,7 @@ dd {
 
 .lineage-item {
   display: grid;
-  grid-template-columns: 36px 1fr auto;
+  grid-template-columns: 10px 36px 1fr auto;
   align-items: center;
   gap: 9px;
   font-size: 0.9rem;
@@ -497,6 +545,13 @@ dd {
 .lineage-item .index {
   color: var(--accent);
   font-weight: 700;
+}
+
+.party-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid rgb(0 0 0 / 12%);
 }
 
 .lineage-item .axis {
