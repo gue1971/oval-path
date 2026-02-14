@@ -13,6 +13,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   font-family: "Work Sans", sans-serif;
@@ -89,6 +93,8 @@ h1 {
 }
 
 .view-tab {
+  -webkit-appearance: none;
+  appearance: none;
   border: 1px solid var(--line);
   border-radius: 12px;
   padding: 9px 10px;
@@ -96,6 +102,8 @@ h1 {
   color: var(--ink);
   font: inherit;
   font-weight: 700;
+  line-height: 1.2;
+  -webkit-tap-highlight-color: transparent;
   cursor: pointer;
 }
 
