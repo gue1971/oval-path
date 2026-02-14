@@ -2,6 +2,7 @@
   const presidents = window.PRESIDENTS || [];
 
   const controlsEl = document.querySelector(".controls");
+  const toggleAllErasButton = document.getElementById("toggle-all-eras");
   const backToLineageButton = document.getElementById("back-to-lineage");
   const symbolArt = document.getElementById("symbol-art");
   const symbolCaption = document.getElementById("symbol-caption");
@@ -40,6 +41,7 @@
     保守化とグローバル化: { years: "1981-2009", presidents: "40-43代" },
     現代アメリカ: { years: "2009-現在", presidents: "44-47代" }
   };
+  const eraNames = [...new Set(presidents.map((p) => p.era).filter(Boolean))];
 
   function escapeHtml(value) {
     return String(value)
@@ -225,6 +227,19 @@
         </section>`;
       })
       .join("");
+
+    updateToggleAllButtonLabel();
+  }
+
+  function areAllErasExpanded() {
+    return eraNames.every((era) => expandedEras.has(era));
+  }
+
+  function updateToggleAllButtonLabel() {
+    if (!toggleAllErasButton) {
+      return;
+    }
+    toggleAllErasButton.textContent = areAllErasExpanded() ? "すべて閉じる" : "すべて開く";
   }
 
   function scrollLineageToPresident(presidentId) {
@@ -343,6 +358,15 @@
     }
     const selectedId = Number(item.dataset.presidentId);
     showNoteView(selectedId, { pushHistory: true });
+  });
+
+  toggleAllErasButton?.addEventListener("click", () => {
+    if (areAllErasExpanded()) {
+      expandedEras.clear();
+    } else {
+      eraNames.forEach((era) => expandedEras.add(era));
+    }
+    renderLineage(activePresidentId);
   });
 
   backToLineageButton.addEventListener("click", () => {

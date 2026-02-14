@@ -77,7 +77,7 @@ h1 {
   top: 0;
   z-index: 20;
   margin: 0 -10px 10px;
-  padding: 8px 10px;
+  padding: 12px 10px;
   display: block;
   background: var(--bg-0);
   border-bottom: 1px solid #ddd4c2;
@@ -91,14 +91,33 @@ h1 {
 }
 
 .controls-heading {
-  display: grid;
-  gap: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 32px;
 }
 
 .controls-title {
   margin: 0;
   font-size: clamp(1.05rem, 4.2vw, 1.35rem);
   line-height: 1.2;
+}
+
+.era-toggle-all {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 7px 10px;
+  white-space: nowrap;
+  cursor: pointer;
 }
 
 .controls-subtitle {
