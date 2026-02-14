@@ -89,7 +89,7 @@ h1 {
   font-family: "Work Sans", sans-serif;
   font-size: 16px;
   line-height: 1.35;
-  font-weight: 400;
+  font-weight: 700;
   text-align: left;
   color: var(--ink);
   border: 1px solid var(--line);
@@ -129,6 +129,7 @@ h1 {
   font: inherit;
   font-size: 16px;
   line-height: 1.35;
+  font-weight: 700;
   color: inherit;
   text-align: left;
   border: 1px solid transparent;
@@ -172,6 +173,7 @@ h1 {
 .picker-button {
   width: 100%;
   font: inherit;
+  font-weight: 700;
   color: var(--ink);
   text-align: left;
   border: 1px solid var(--line);
@@ -200,6 +202,7 @@ h1 {
 .picker-option {
   width: 100%;
   font: inherit;
+  font-weight: 700;
   color: inherit;
   text-align: left;
   border: 1px solid transparent;
