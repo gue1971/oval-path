@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Oval Path</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Work+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <p class="kicker">The Oval Path</p>
+        <h1>オーバル・パス</h1>
+        <p class="subtitle">原点から辿る合衆国の思想</p>
+      </header>
+
+      <section class="controls" aria-label="表示コントロール">
+        <label>
+          大統領を選ぶ
+          <select id="president-select"></select>
+        </label>
+      </section>
+
+      <article class="card" id="president-card" aria-live="polite">
+        <div class="image-frame">
+          <div class="symbol-art" id="symbol-art"></div>
+          <p class="symbol-caption" id="symbol-caption"></p>
+        </div>
+
+        <section class="quick-insight">
+          <h2>Quick Insight</h2>
+          <dl>
+            <div>
+              <dt>名前</dt>
+              <dd id="pi-name"></dd>
+            </div>
+            <div>
+              <dt>任期</dt>
+              <dd id="pi-term"></dd>
+            </div>
+            <div>
+              <dt>政党</dt>
+              <dd id="pi-party"></dd>
+            </div>
+            <div>
+              <dt>キーワード</dt>
+              <dd id="pi-keywords"></dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="note">
+          <h2>The Note</h2>
+          <div class="note-grid">
+            <article>
+              <h3>Origin</h3>
+              <p id="note-origin"></p>
+            </article>
+            <article>
+              <h3>Legacy</h3>
+              <p id="note-legacy"></p>
+            </article>
+          </div>
+        </section>
+      </article>
+
+      <section class="lineage" aria-label="思想の系譜マップ">
+        <h2>思想の系譜マップ（初期版）</h2>
+        <p class="lineage-help">対立軸: <strong>連邦集権 ←→ 州権重視</strong></p>
+        <div id="lineage-track" class="lineage-track"></div>
+      </section>
+
+      <section class="roadmap" aria-label="拡張ロードマップ">
+        <h2>段階導入プラン</h2>
+        <ol>
+          <li>Phase 1: 建国期の8人でUIとノート品質を固める</li>
+          <li>Phase 2: 南北戦争〜進歩主義（+12人）を追加</li>
+          <li>Phase 3: 20世紀後半〜現代（全45/47対応）へ拡張</li>
+        </ol>
+      </section>
+    </main>
+
+    <script src="./data.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
