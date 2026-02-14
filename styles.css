@@ -61,15 +61,8 @@ h1 {
 }
 
 .controls {
-  margin-top: 16px;
+  margin-top: 8px;
   display: grid;
-}
-
-.controls label {
-  display: grid;
-  gap: 7px;
-  font-size: 0.86rem;
-  color: var(--muted);
 }
 
 select {

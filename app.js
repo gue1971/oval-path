@@ -31,7 +31,9 @@
   }
 
   function buildSelectOptions() {
-    select.innerHTML = presidents.map((p) => `<option value="${p.id}">${p.id}. ${p.jpName}\n${p.name}</option>`).join("");
+    select.innerHTML = presidents
+      .map((p) => `<option value="${p.id}">${p.id}. ${p.jpName}\n    ${p.name}</option>`)
+      .join("");
   }
 
   function renderLineage(activeId) {
