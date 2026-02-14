@@ -387,9 +387,7 @@ h1 {
   justify-items: center;
   gap: 10px;
   padding: 20px 20px 14px;
-  background:
-    linear-gradient(180deg, rgb(232 222 200 / 70%), rgb(227 214 188 / 95%)),
-    repeating-linear-gradient(45deg, #efe5cf 0 8px, #f5ecd9 8px 16px);
+  background: #fffdf9;
 }
 
 .symbol-art {
