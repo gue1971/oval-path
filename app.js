@@ -30,14 +30,14 @@
   let filteredPresidents = [...presidents];
   let activePresidentId = presidents[0].id;
   let selectedEra = "all";
-  const eraLabelMap = {
-    all: "全時代",
-    建国期: "建国期（1789-1841）",
-    拡張と分断前夜: "拡張と分断前夜（1841-1861）",
-    南北戦争と再建: "南北戦争と再建（1861-1881）",
-    産業化と改革: "産業化と改革（1881-1901）",
-    進歩主義時代: "進歩主義時代（1901-1921）",
-    戦間期と大恐慌: "戦間期と大恐慌（1921-1945）"
+  const eraMetaMap = {
+    all: { years: "", name: "全時代", presidents: "1-32代" },
+    建国期: { years: "1789-1841", name: "建国期", presidents: "1-8代" },
+    拡張と分断前夜: { years: "1841-1861", name: "拡張と分断前夜", presidents: "9-15代" },
+    南北戦争と再建: { years: "1861-1881", name: "南北戦争と再建", presidents: "16-20代" },
+    産業化と改革: { years: "1881-1901", name: "産業化と改革", presidents: "21-25代" },
+    進歩主義時代: { years: "1901-1921", name: "進歩主義時代", presidents: "26-28代" },
+    戦間期と大恐慌: { years: "1921-1945", name: "戦間期と大恐慌", presidents: "29-32代" }
   };
 
   function escapeHtml(value) {
@@ -79,21 +79,28 @@
   function buildEraOptions() {
     const eras = [...new Set(presidents.map((p) => p.era).filter(Boolean))];
     eraList.innerHTML = [
-      `<li role="option" aria-selected="false"><button type="button" class="era-option" data-era-value="all">${escapeHtml(
-        eraLabelMap.all
+      `<li role="option" aria-selected="false"><button type="button" class="era-option" data-era-value="all">${renderEraLabel(
+        "all"
       )}</button></li>`,
       ...eras.map(
         (era) =>
           `<li role="option" aria-selected="false"><button type="button" class="era-option" data-era-value="${escapeHtml(
             era
-          )}">${escapeHtml(eraLabelMap[era] || era)}</button></li>`
+          )}">${renderEraLabel(era)}</button></li>`
       )
     ].join("");
   }
 
+  function renderEraLabel(eraValue) {
+    const meta = eraMetaMap[eraValue] || { years: "", name: eraValue, presidents: "" };
+    const yearsHtml = meta.years ? `<span class="era-years">${escapeHtml(meta.years)}</span>` : "";
+    const nameHtml = `<span class="era-name">${escapeHtml(meta.name)}</span>`;
+    const rangeHtml = meta.presidents ? `<span class="era-presidents">${escapeHtml(meta.presidents)}</span>` : "";
+    return `<span class="era-label">${yearsHtml}${nameHtml}${rangeHtml}</span>`;
+  }
+
   function renderEraCurrent() {
-    const buttonLabel = eraLabelMap[selectedEra] || selectedEra;
-    eraCurrent.textContent = buttonLabel;
+    eraCurrent.innerHTML = renderEraLabel(selectedEra);
     eraList.querySelectorAll(".era-option").forEach((optionEl) => {
       const isActive = optionEl.dataset.eraValue === selectedEra;
       optionEl.classList.toggle("active", isActive);
