@@ -73,8 +73,8 @@ h1 {
   margin: 0 -10px 10px;
   padding: 8px 10px;
   display: block;
-  background: linear-gradient(180deg, rgb(242 239 232 / 96%), rgb(242 239 232 / 84%));
-  backdrop-filter: blur(2px);
+  background: transparent;
+  backdrop-filter: none;
 }
 
 .controls-inner {
