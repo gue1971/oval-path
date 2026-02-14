@@ -169,11 +169,6 @@
       return groups;
     }, []);
 
-    const activePresident = presidents.find((p) => p.id === Number(activeId));
-    if (activePresident?.era) {
-      expandedEras.add(activePresident.era);
-    }
-
     lineageTrack.innerHTML = eraGroups
       .map((group) => {
         const eraMeta = eraMetaMap[group.era] || { years: "", presidents: "" };
