@@ -24,6 +24,9 @@
 
   let activePresidentId = presidents[0].id;
   let activeView = "lineage";
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isTrackingSwipeBack = false;
 
   const eraMetaMap = {
     建国期: { years: "1789-1841", presidents: "1-8代" },
@@ -292,6 +295,14 @@
     }
   }
 
+  function goBackToLineage() {
+    if (window.history.state?.view === "note") {
+      window.history.back();
+      return;
+    }
+    showLineageView();
+  }
+
   renderPresident(activePresidentId);
   setActiveView("lineage");
   window.history.replaceState(historyStateLineage, "");
@@ -306,12 +317,40 @@
   });
 
   backToLineageButton.addEventListener("click", () => {
-    if (window.history.state?.view === "note") {
-      window.history.back();
-      return;
-    }
-    showLineageView();
+    goBackToLineage();
   });
+
+  cardEl.addEventListener(
+    "touchstart",
+    (event) => {
+      if (activeView !== "note" || !event.touches.length) {
+        isTrackingSwipeBack = false;
+        return;
+      }
+      const touch = event.touches[0];
+      isTrackingSwipeBack = touch.clientX <= 28;
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+    },
+    { passive: true }
+  );
+
+  cardEl.addEventListener(
+    "touchend",
+    (event) => {
+      if (!isTrackingSwipeBack || !event.changedTouches.length) {
+        return;
+      }
+      isTrackingSwipeBack = false;
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - touchStartX;
+      const deltaY = Math.abs(touch.clientY - touchStartY);
+      if (deltaX > 72 && deltaY < 48 && deltaX > deltaY * 1.3) {
+        goBackToLineage();
+      }
+    },
+    { passive: true }
+  );
 
   window.addEventListener("popstate", (event) => {
     if (event.state?.view === "note") {
