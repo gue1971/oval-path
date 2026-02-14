@@ -82,12 +82,26 @@ h1 {
 
 .era-filter {
   width: 100%;
-  font: inherit;
+  font-family: "Work Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 600;
   color: var(--ink);
   border: 1px solid var(--line);
   border-radius: 12px;
   background: #fff;
-  padding: 10px 11px;
+  min-height: 46px;
+  padding: 10px 38px 10px 12px;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% - 2px),
+    calc(100% - 12px) calc(50% - 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
 }
 
 .president-picker {
